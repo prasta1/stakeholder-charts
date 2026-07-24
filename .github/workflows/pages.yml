@@ -35,15 +35,20 @@ jobs:
       - name: Generate charts
         run: python3 scripts/generate_stakeholder_charts.py
 
+      - name: Copy to docs folder for Pages
+        run: |
+          rm -rf docs
+          cp -r "stakeholder maps" docs
+
       - name: Verify output
         run: |
-          echo "Generated charts:"
-          ls -la "stakeholder maps/"/*.html | wc -l
+          echo "Generated charts in docs/:"
+          ls -la docs/*.html | wc -l
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'stakeholder maps'
+          path: 'docs'
 
   deploy:
     needs: build

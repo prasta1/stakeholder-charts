@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Nestlé Purina Stakeholder Map</title>
+<style>
+  :root {
+    --bg: #050b14;
+    --card: rgba(15,23,42,0.6);
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --border: #1f2937;
+    --high: #f59e0b;
+    --medium: #34d399;
+    --low: #60a5fa;
+    --group-fill: rgba(30,41,59,0.5);
+  }
+  * { box-sizing: border-box; }
+  html,body {
+    margin:0; padding:0;
+    background: radial-gradient(1200px 800px at 10% -10%, #0b1d33 0%, transparent 60%),
+                radial-gradient(900px 600px at 110% 10%, #0d1f2d 0%, transparent 55%),
+                var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+  }
+  .wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 24px 40px;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  header .dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #22d3ee;
+    box-shadow: 0 0 12px #22d3aa;
+    animation: pulse 2.2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .75; transform: scale(1.15); }
+  }
+  header h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+  header p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .legend {
+    display: flex;
+    gap: 14px;
+    margin: 10px 0 18px;
+    font-size: 12px;
+  }
+  .legend .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: var(--card);
+    border: 1px solid var(--border);
+  }
+  .legend .swatch {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+  }
+  .stage {
+    background: linear-gradient(180deg, rgba(15,23,42,0.4) 0%, rgba(15,23,42,0.2) 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    backdrop-filter: blur(4px);
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .row + .row {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--border);
+  }
+  .row .label {
+    width: 100%;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .node {
+    flex: 1 1 180px;
+    max-width: 260px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .node::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+  }
+  .node.high::before { background: var(--high); }
+  .node.medium::before { background: var(--medium); }
+  .node.low::before { background: var(--low); }
+  .node .name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #f8fafc;
+  }
+  .node .role {
+    margin-top: 2px;
+    font-size: 12px;
+    color: #cbd5e1;
+  }
+  .node .meta {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .node .badge {
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+  }
+  .group {
+    flex: 1 1 220px;
+    background: var(--group-fill);
+    border: 1px dashed var(--border);
+    border-radius: 14px;
+    padding: 12px;
+  }
+  .group h4 {
+    margin: 0 0 10px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.1px;
+    color: #cbd5e1;
+  }
+  .group .row { margin-top: 8px; }
+  footer {
+    margin-top: 18px;
+    color: var(--muted);
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="dot" aria-hidden="true"></div>
+      <div>
+        <h1>Nestlé Purina Stakeholder Map</h1>
+        <p>Customer contacts edited over time. Add new contacts in the customer file.</p>
+      </div>
+    </header>
+
+    <div class="legend">
+      <div class="pill"><span class="swatch" style="background:var(--high)"></span>High influence</div>
+      <div class="pill"><span class="swatch" style="background:var(--medium)"></span>Medium influence</div>
+      <div class="pill"><span class="swatch" style="background:var(--low)"></span>Low influence</div>
+    </div>
+
+    <div class="stage">
+      <div class="row">
+        <div class="label">Leadership / High Influence</div>
+        <div class="node high">
+          <div class="name">Sabir Khan</div>
+          <div class="role">Capgemini Engineer (Contractor at Purina)</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node high">
+          <div class="name">Sean Boland</div>
+          <div class="role">Sr. Director of Marketing</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node high">
+          <div class="name">Sheri Smithey</div>
+          <div class="role">Senior Vice President</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node high">
+          <div class="name">Ann Scharenberg</div>
+          <div class="role">Director of Architecture & Services</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node high">
+          <div class="name">Daniel Cheng</div>
+          <div class="role">Director, Product Management, Petivity</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node high">
+          <div class="name">Ragen T.S. McGowan</div>
+          <div class="role">Director Global Digital & AI Product Development</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label">Technical / Medium Influence</div>
+        <div class="node medium">
+          <div class="name">Siddharth Jain</div>
+          <div class="role">Senior Data Scientist  Tiger Analytics</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Natalie Langenfeld-McCoy</div>
+          <div class="role">Manager Data Scientist</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Michelle Phillips</div>
+          <div class="role">NesTMS LBA/Sr Specialist Info Systems/Computer Ops, PTC</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Craig Duffy</div>
+          <div class="role">Expert Automation Engineer</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Saad Siddiqi</div>
+          <div class="role">Senior Project Manager - System technology center</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Flavien Dubief</div>
+          <div class="role">Acceleration R&D Project Manager - System Technology Center - In Switzerland</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Jessica Gillam</div>
+          <div class="role">Lead Digital Marketing Analytics</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Jonathan Brown</div>
+          <div class="role">Senior Specialist - Business Automation</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Catherine Jacknewitz</div>
+          <div class="role">Associate Financial Control, PFME</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Sam Lazenby</div>
+          <div class="role">R&D Category Lead - Global Chocolate Innovation</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Jeff Nafziger</div>
+          <div class="role">Senior Program Manager - Petivity</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Antonio Belmontes</div>
+          <div class="role">Product Manager</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Amie Orlandi</div>
+          <div class="role">Sr. Manager Procurement Business Partner, Procurement</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Jack Arnold</div>
+          <div class="role">Associate Counsel</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Brian Lohman</div>
+          <div class="role">Associate Financial Control</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Terry O'Shea</div>
+          <div class="role">Consults for R&D Team - Physicist</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Helber Dussan</div>
+          <div class="role">Data Scientist - R&D Team</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Peter Farrand</div>
+          <div class="role">Senior Counsel</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Phillip Stoecker</div>
+          <div class="role">Petivity - Cloud Lead</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Bhanuprakash Bheemaneni</div>
+          <div class="role">Senior Professional - Capgemini Engineering</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Lei Liang</div>
+          <div class="role">Expert Digital Manufacturing</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Swapnil Bobate</div>
+          <div class="role">Senior Analytics Consultant - Tiger Analytics</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Dwarakanath Raghavendra Ravi</div>
+          <div class="role">Engagement Manager - Tiger Analytics</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Kristin Slater</div>
+          <div class="role">Senior Manager, IoT Products, Petivity</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Jonathan Lau</div>
+          <div class="role">Product Management Consultant</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Robert Stephenson</div>
+          <div class="role">Infrastructure Manager</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Noah Haukap</div>
+          <div class="role">Manager IT User Support, PTC</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Praveen Kumar Ganesh Kumar</div>
+          <div class="role">Assistant Sales Manager</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Paul Whitaker</div>
+          <div class="role">Associate Brand Manager - Perrier</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Denise Becker</div>
+          <div class="role">Senior Specialist Procurement</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Tina Marlow</div>
+          <div class="role">Senior Paralegal</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Srikanth Vemparala</div>
+          <div class="role">Expert Solutions Architect Lead</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+        <div class="node medium">
+          <div class="name">Robert Teckenbrock</div>
+          <div class="role">Senior data engineer</div>
+          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label">Operational / Low Influence</div>
+        <div class="group">
+          <h4>Software / Firmware</h4>
+          <div class="row">
+        <div class="node low">
+          <div class="name">Juhi Negi</div>
+          <div class="role">Engineer of some sort?</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">8 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Padma Sripada</div>
+          <div class="role">Operations and Program Management at Culvert Engineering Solutions, LLC</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">4 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Jack Tanny</div>
+          <div class="role">Data & AI Engineer II Consultant</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">10 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Martyn Hilbers</div>
+          <div class="role">Control Sytem Engineer / Course Trainer</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">6 activities</span></div>
+        </div>
+          </div>
+        </div>        <div class="group">
+          <h4>Engineering / QA</h4>
+          <div class="row">
+        <div class="node low">
+          <div class="name">Narendra Kumar</div>
+          <div class="role">Quality Control Microbiologist</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">4 activities</span></div>
+        </div>
+          </div>
+        </div>        <div class="group">
+          <h4>Business / Admin</h4>
+          <div class="row">
+        <div class="node low">
+          <div class="name">Janaidahmed Ansari</div>
+          <div class="role">R&D - Constultant</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">22 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Jeremy Facquez</div>
+          <div class="role">Responsable secteur - France</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">0 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Laura Perbellini</div>
+          <div class="role">Unclear</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">1 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Laura Paez</div>
+          <div class="role">Associate R&D Specialist in Machine Development in Switzerland</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">7 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Ryan Brauer</div>
+          <div class="role">Citizen Development and Analytics Consultant</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">3 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Kevin Connelly</div>
+          <div class="role">Specialist Business Optimization</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">1 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Todd Moss</div>
+          <div class="role">Consultant of Innovation Business Intelligence</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">3 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Danielle Edler</div>
+          <div class="role">Data and Analytics Consultant</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">3 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Jessica Mirowitz</div>
+          <div class="role">Marketing</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">4 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Dilyana Nikolova</div>
+          <div class="role">R&D Master Trainee (Nutrition Sciences Department)</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">0 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Kim Bill</div>
+          <div class="role">Head Purina Accelerator Lab</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">1 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">AP Scan</div>
+          <div class="role">AP Scan</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">8 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Debashish Sahoo</div>
+          <div class="role">Analytics Consultant - Tiger Analytics</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">20 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Abhisheksai Nasanuru</div>
+          <div class="role">Unclear</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">2 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Uday Bijjala</div>
+          <div class="role">Tiger Team Analytics</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">2 activities</span></div>
+        </div>
+        <div class="node low">
+          <div class="name">Anandu Nandakumar</div>
+          <div class="role">Tiger Team Analytics</div>
+          <div class="meta"><span class="badge">Active</span><span class="badge">2 activities</span></div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <span>Nestlé Purina Petcare Global Resources Inc</span>
+      <span>60 active contacts</span>
+    </footer>
+  </div>
+</body>
+</html>

@@ -56,6 +56,7 @@ ACCOUNT_DISPLAY = {
 INFLUENCE_COLOR = {"High": "high", "Medium": "medium", "Low": "low"}
 RELATIONSHIP_LABEL = {"Ally": "Ally", "Neutral": "Neutral", "Warm": "Warm", "Blocker": "Blocker", "Marketing": "Marketing"}
 
+# HTML template with all CSS braces escaped for Python .format()
 HTML_TEMPLATE = """<!doctype html>
 <html lang="en">
 <head>
@@ -63,7 +64,7 @@ HTML_TEMPLATE = """<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>{account_name} Stakeholder Map</title>
 <style>
-  :root {
+  :root {{
     --bg: #050b14;
     --card: rgba(15,23,42,0.6);
     --text: #e2e8f0;
@@ -73,9 +74,9 @@ HTML_TEMPLATE = """<!doctype html>
     --medium: #34d399;
     --low: #60a5fa;
     --group-fill: rgba(30,41,59,0.5);
-  }
-  * { box-sizing: border-box; }
-  html,body {
+  }}
+  * {{ box-sizing: border-box; }}
+  html,body {{
     margin:0; padding:0;
     background: radial-gradient(1200px 800px at 10% -10%, #0b1d33 0%, transparent 60%),
                 radial-gradient(900px 600px at 110% 10%, #0d1f2d 0%, transparent 55%),
@@ -83,47 +84,47 @@ HTML_TEMPLATE = """<!doctype html>
     color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     min-height: 100vh;
-  }
-  .wrap {
+  }}
+  .wrap {{
     max-width: 1200px;
     margin: 0 auto;
     padding: 28px 24px 40px;
-  }
-  header {
+  }}
+  header {{
     display: flex;
     align-items: center;
     gap: 14px;
     margin-bottom: 18px;
-  }
-  header .dot {
+  }}
+  header .dot {{
     width: 12px; height: 12px;
     border-radius: 50%;
     background: #22d3ee;
     box-shadow: 0 0 12px #22d3aa;
     animation: pulse 2.2s infinite;
-  }
-  @keyframes pulse {
-    0%,100% { opacity: 1; transform: scale(1); }
-    50% { opacity: .75; transform: scale(1.15); }
-  }
-  header h1 {
+  }}
+  @keyframes pulse {{
+    0%,100% {{ opacity: 1; transform: scale(1); }}
+    50% {{ opacity: .75; transform: scale(1.15); }}
+  }}
+  header h1 {{
     margin: 0;
     font-size: 22px;
     font-weight: 600;
     letter-spacing: 0.2px;
-  }
-  header p {
+  }}
+  header p {{
     margin: 4px 0 0;
     color: var(--muted);
     font-size: 13px;
-  }
-  .legend {
+  }}
+  .legend {{
     display: flex;
     gap: 14px;
     margin: 10px 0 18px;
     font-size: 12px;
-  }
-  .legend .pill {
+  }}
+  .legend .pill {{
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -131,37 +132,37 @@ HTML_TEMPLATE = """<!doctype html>
     border-radius: 999px;
     background: var(--card);
     border: 1px solid var(--border);
-  }
-  .legend .swatch {
+  }}
+  .legend .swatch {{
     width: 10px; height: 10px;
     border-radius: 2px;
-  }
-  .stage {
+  }}
+  .stage {{
     background: linear-gradient(180deg, rgba(15,23,42,0.4) 0%, rgba(15,23,42,0.2) 100%);
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 18px;
     backdrop-filter: blur(4px);
-  }
-  .row {
+  }}
+  .row {{
     display: flex;
     flex-wrap: wrap;
     gap: 14px;
-  }
-  .row + .row {
+  }}
+  .row + .row {{
     margin-top: 16px;
     padding-top: 16px;
     border-top: 1px dashed var(--border);
-  }
-  .row .label {
+  }}
+  .row .label {{
     width: 100%;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 1.2px;
     color: var(--muted);
     margin-bottom: 6px;
-  }
-  .node {
+  }}
+  .node {{
     flex: 1 1 180px;
     max-width: 260px;
     background: var(--card);
@@ -170,61 +171,61 @@ HTML_TEMPLATE = """<!doctype html>
     padding: 12px 14px;
     position: relative;
     overflow: hidden;
-  }
-  .node::before {
+  }}
+  .node::before {{
     content: '';
     position: absolute;
     left: 0; top: 0; bottom: 0;
     width: 3px;
-  }
-  .node.high::before { background: var(--high); }
-  .node.medium::before { background: var(--medium); }
-  .node.low::before { background: var(--low); }
-  .node .name {
+  }}
+  .node.high::before {{ background: var(--high); }}
+  .node.medium::before {{ background: var(--medium); }}
+  .node.low::before {{ background: var(--low); }}
+  .node .name {{
     font-size: 14px;
     font-weight: 600;
     color: #f8fafc;
-  }
-  .node .role {
+  }}
+  .node .role {{
     margin-top: 2px;
     font-size: 12px;
     color: #cbd5e1;
-  }
-  .node .meta {
+  }}
+  .node .meta {{
     margin-top: 8px;
     display: flex;
     gap: 8px;
     font-size: 11px;
     color: var(--muted);
-  }
-  .node .badge {
+  }}
+  .node .badge {{
     padding: 3px 8px;
     border-radius: 999px;
     background: rgba(255,255,255,0.06);
     border: 1px solid var(--border);
-  }
-  .group {
+  }}
+  .group {{
     flex: 1 1 220px;
     background: var(--group-fill);
     border: 1px dashed var(--border);
     border-radius: 14px;
     padding: 12px;
-  }
-  .group h4 {
+  }}
+  .group h4 {{
     margin: 0 0 10px;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 1.1px;
     color: #cbd5e1;
-  }
-  .group .row { margin-top: 8px; }
-  footer {
+  }}
+  .group .row {{ margin-top: 8px; }}
+  footer {{
     margin-top: 18px;
     color: var(--muted);
     font-size: 12px;
     display: flex;
     justify-content: space-between;
-  }
+  }}
 </style>
 </head>
 <body>
@@ -271,26 +272,26 @@ def build_node(contact, show_activities=False):
                 activities = notes.split("Sales activities:")[1].split("'")[0].strip()
             except Exception:
                 pass
-        meta = f'<span class="badge">Active</span><span class="badge">{activities} activities</span>'
+        meta = '<span class="badge">Active</span><span class="badge">{activities} activities</span>'.format(activities=activities)
     else:
-        meta = f'<span class="badge">Contact</span><span class="badge">{rel}</span>'
+        meta = '<span class="badge">Contact</span><span class="badge">{rel}</span>'.format(rel=rel)
 
-    return f'''        <div class="node {influence}">
+    return '''        <div class="node {influence}">
           <div class="name">{name}</div>
           <div class="role">{role}</div>
           <div class="meta">{meta}</div>
-        </div>'''
+        </div>'''.format(influence=influence, name=name, role=role, meta=meta)
 
 
 def build_group(contacts, group_name, show_activities=False):
     """Build a grouped section for low-influence contacts."""
     nodes = "\n".join(build_node(c, show_activities) for c in contacts)
-    return f'''        <div class="group">
+    return '''        <div class="group">
           <h4>{group_name}</h4>
           <div class="row">
 {nodes}
           </div>
-        </div>'''
+        </div>'''.format(group_name=group_name, nodes=nodes)
 
 
 def generate_chart(account_slug):
@@ -322,18 +323,18 @@ def generate_chart(account_slug):
     # High influence row
     if high:
         nodes = "\n".join(build_node(c) for c in high)
-        rows.append(f'''      <div class="row">
+        rows.append('''      <div class="row">
         <div class="label">Leadership / High Influence</div>
 {nodes}
-      </div>''')
+      </div>'''.format(nodes=nodes))
 
     # Medium influence row
     if medium:
         nodes = "\n".join(build_node(c) for c in medium)
-        rows.append(f'''      <div class="row">
+        rows.append('''      <div class="row">
         <div class="label">Technical / Medium Influence</div>
 {nodes}
-      </div>''')
+      </div>'''.format(nodes=nodes))
 
     # Low influence - grouped by role category
     if low:
@@ -349,10 +350,10 @@ def generate_chart(account_slug):
         if biz:
             low_parts.append(build_group(biz, "Business / Admin", True))
 
-        rows.append(f'''      <div class="row">
+        rows.append('''      <div class="row">
         <div class="label">Operational / Low Influence</div>
-{"".join(low_parts)}
-      </div>''')
+{low_parts}
+      </div>'''.format(low_parts="".join(low_parts)))
 
     rows_html = "\n".join(rows)
 
@@ -363,7 +364,7 @@ def generate_chart(account_slug):
         rows_html=rows_html
     )
 
-    output_path = OUTPUT_DIR / f"{account_slug}-stakeholder-map.html"
+    output_path = OUTPUT_DIR / "{account_slug}-stakeholder-map.html".format(account_slug=account_slug)
     output_path.write_text(html)
     return output_path
 
@@ -372,9 +373,9 @@ def main():
     for slug in SLUG_MAP:
         result = generate_chart(slug)
         if result:
-            print(f"✓ Generated {result.name}")
+            print("✓ Generated {name}".format(name=result.name))
         else:
-            print(f"✗ Skipped {slug} (no data or missing file)")
+            print("✗ Skipped {slug} (no data or missing file)".format(slug=slug))
 
 
 if __name__ == "__main__":

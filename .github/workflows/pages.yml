@@ -4,9 +4,10 @@ on:
   push:
     branches: [main]
     paths:
-      - 'stakeholder maps/**'
-      - 'scripts/generate_stakeholder_charts.py'
       - 'customers/**/index.md'
+      - 'scripts/generate_stakeholder_charts.py'
+      - 'stakeholder maps/**'
+  workflow_dispatch:
 
 permissions:
   contents: read

@@ -213,6 +213,87 @@ HTML_TEMPLATE = '''<!doctype html>
     padding: 14px;
     margin-top: 10px;
   }
+  .tree-section {
+    margin-top: 10px;
+  }
+  .tree-section > .row {
+    display: block;
+    padding: 14px;
+    border-radius: 12px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+  }
+  .tree-node {
+    position: relative;
+  }
+  .tree-node .node:hover {
+    z-index: 10;
+  }
+  .tree-children {
+    position: relative;
+    margin-left: 24px;
+    border-left: 2px dashed #334155;
+    padding-left: 14px;
+    margin-top: 8px;
+  }
+  .tree-children::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -1px;
+    width: 2px;
+    height: 8px;
+    background: #334155;
+  }
+  .tree-children > .tree-node {
+    margin-bottom: 6px;
+  }
+  .ic-grid {
+    margin-left: 24px;
+    padding-left: 14px;
+  }
+  .team-section {
+    margin-bottom: 24px;
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 16px;
+    background: rgba(15,23,42,0.3);
+  }
+  .team-header {
+    margin: 0 0 14px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .team-header::before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--card-border);
+  }
+  .team-header span {
+    background: var(--card);
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    color: var(--heading);
+    border: 1px solid var(--card-border);
+  }
+  .team-management {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .team-ics {
+    padding-left: 14px;
+    border-left: 2px dashed var(--card-border);
+    margin-top: 10px;
+  }
   .group h4 {
     margin: 0 0 12px;
     font-size: 12px;
@@ -278,6 +359,9 @@ HTML_TEMPLATE = '''<!doctype html>
         <option value="Marketing">Marketing</option>
         <option value="Neutral">Neutral</option>
       </select>
+      <select id="filter-team">
+        <option value="all">All Teams</option>
+      </select>
     </div>
 
     <div class="legend">
@@ -307,25 +391,40 @@ HTML_TEMPLATE = '''<!doctype html>
     // Client-side search + filter
     const searchInput = document.getElementById('search');
     const filterSelect = document.getElementById('filter-rel');
+    const teamFilter = document.getElementById('filter-team');
     const nodes = document.querySelectorAll('.node');
     const tooltip = document.getElementById('tooltip');
+
+    // Populate team filter options dynamically
+    const teams = new Set();
+    nodes.forEach(node => teams.add(node.dataset.team));
+    teams.forEach(team => {
+      const opt = document.createElement('option');
+      opt.value = team;
+      opt.textContent = team;
+      teamFilter.appendChild(opt);
+    });
 
     function filterNodes() {
       const searchTerm = searchInput.value.toLowerCase();
       const relFilter = filterSelect.value;
+      const teamFilterVal = teamFilter.value;
 
       nodes.forEach(node => {
         const name = node.dataset.name.toLowerCase();
         const role = node.dataset.role.toLowerCase();
         const rel = node.dataset.rel;
+        const team = node.dataset.team;
         const matchesSearch = name.includes(searchTerm) || role.includes(searchTerm);
         const matchesRel = relFilter === 'all' || rel === relFilter;
-        node.style.display = (matchesSearch && matchesRel) ? '' : 'none';
+        const matchesTeam = teamFilterVal === 'all' || team === teamFilterVal;
+        node.style.display = (matchesSearch && matchesRel && matchesTeam) ? '' : 'none';
       });
     }
 
     searchInput.addEventListener('input', filterNodes);
     filterSelect.addEventListener('change', filterNodes);
+    teamFilter.addEventListener('change', filterNodes);
 
     // Tooltip on hover
     document.addEventListener('mousemove', (e) => {

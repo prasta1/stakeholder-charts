@@ -353,12 +353,12 @@ def build_tree_section(mgr, level=0, is_last=True, prefix="", show_children=True
     )
     
     # Render children (reports)
-    child_team = infer_team(role)
     reports = mgr.get("_reports", [])
     
     if reports:
-        # Split reports into managers and ICs
-        mgr_reports = [r for r in reports if any(t in (r.get("role") or "").lower() for t in ["manager", "lead", "director", "vp", "head of", "sr.", "senior"])]
+        # Also check for explicitly named reports_to on individual contacts
+        # (handled in build_reporting_tree, but we also check direct field)
+        mgr_reports = [r for r in reports if any(t in (r.get("role") or "").lower() for t in ["manager", "lead", "director", "vp ", "vice president", "head of", "sr.", "senior"])]
         ic_reports = [r for r in reports if r not in mgr_reports]
         
         if mgr_reports:

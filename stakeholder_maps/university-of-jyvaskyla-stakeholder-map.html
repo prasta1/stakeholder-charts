@@ -209,6 +209,100 @@
     padding: 14px;
     margin-top: 10px;
   }
+  .tree-section {
+    margin-top: 10px;
+  }
+  .tree-section > .row {
+    display: block;
+    padding: 14px;
+    border-radius: 12px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+  }
+  .tree-node {
+    position: relative;
+  }
+  .tree-node .node:hover {
+    z-index: 10;
+  }
+  .tree-children {
+    position: relative;
+    margin-left: 24px;
+    border-left: 2px dashed #334155;
+    padding-left: 14px;
+    margin-top: 8px;
+  }
+  .tree-children::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -1px;
+    width: 2px;
+    height: 8px;
+    background: #334155;
+  }
+  .tree-children > .tree-node {
+    margin-bottom: 6px;
+  }
+  .ic-grid {
+    margin-left: 24px;
+    padding-left: 14px;
+  }
+  .team-section {
+    margin-bottom: 24px;
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 16px;
+    background: rgba(15,23,42,0.3);
+  }
+  .team-header {
+    margin: 0 0 14px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .team-header::before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--card-border);
+  }
+  .team-header span {
+    background: var(--card);
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    color: var(--heading);
+    border: 1px solid var(--card-border);
+  }
+  .team-management {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .team-ics {
+    padding-left: 14px;
+    border-left: 2px dashed var(--card-border);
+    margin-top: 10px;
+  }
+  /* Engagement indicator dots */
+  .eng-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .eng-warm { background: var(--high); }
+  .eng-neutral { background: #f59e0b; }
+  .eng-cold { background: var(--low); }
+  .eng-unknown { background: #6b7280; }
   .group h4 {
     margin: 0 0 12px;
     font-size: 12px;
@@ -274,6 +368,18 @@
         <option value="Marketing">Marketing</option>
         <option value="Neutral">Neutral</option>
       </select>
+
+      <select id="filter-team">
+        <option value="all">All Teams</option>
+      </select>
+
+      <select id="filter-eng">
+        <option value="all">All Engagement</option>
+        <option value="warm">Warm</option>
+        <option value="neutral">Neutral</option>
+        <option value="cold">Cold</option>
+        <option value="unknown">Unknown</option>
+      </select>
     </div>
 
     <div class="legend">
@@ -287,28 +393,55 @@
       <div class="pill"><span class="swatch rel" style="background:var(--rel-marketing)"></span>Marketing</div>
     </div>
 
+    <div class="legend">
+      <div class="pill"><span class="eng-dot eng-warm" style="margin-left:0"></span>Engaged (last 90 days)</div>
+      <div class="pill"><span class="eng-dot eng-neutral" style="margin-left:0"></span>Touched (90-180 days)</div>
+      <div class="pill"><span class="eng-dot eng-cold" style="margin-left:0"></span> No recent activity</div>
+      <div class="pill"><span class="eng-dot eng-unknown" style="margin-left:0"></span>Status unknown</div>
+    </div>
+
     <div class="stage">
-<div class="row"><div class="label">Leadership / High Influence</div><div class="node-grid"><div class="node" data-name="Leena Hellman" data-role="Doctoral Researcher" data-rel="Neutral" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Doctoral Researcher; Last activity: ; Sales activities: 0">Leena Hellman</div><div class="role">Doctoral Researcher</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span></div></div></div>
-<div class="node" data-name="Marko Aittola" data-role="Director" data-rel="Neutral" data-activities="23"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Director; Last activity: 2025-10-29 09:26; Sales activities: 23">Marko Aittola</div><div class="role">Director</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">23 activities</span></div></div></div></div></div>
-<div class="row"><div class="label">Technical / Medium Influence</div><div class="node-grid"><div class="node" data-name="Ilkka Kivelä" data-role="Project Manager" data-rel="Neutral" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Project Manager; Last activity: ; Sales activities: 0">Ilkka Kivelä</div><div class="role">Project Manager</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span></div></div></div>
-<div class="node" data-name="Rony Lepp√§nen" data-role="Project Manager" data-rel="Neutral" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Project Manager; Last activity: 2025-10-29 09:26; Sales activities:">Rony Lepp√§nen</div><div class="role">Project Manager</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span></div></div></div></div></div>
-<div class="row"><div class="label">Operational / Low Influence</div><div class="group"><h4>Software / Firmware</h4><div class="node-grid"><div class="node" data-name="Juuso Solonen" data-role="Software Developer" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Software Developer; Last activity: ; Sales activities: 0">Juuso Solonen</div><div class="role">Software Developer</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div></div></div><div class="group"><h4>Business / Admin</h4><div class="node-grid"><div class="node" data-name="mannisle" data-role="Student" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0">mannisle</div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
-<div class="node" data-name="asunaah" data-role="Student" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0">asunaah</div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
-<div class="node" data-name="sourander" data-role="Student" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0">sourander</div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
-<div class="node" data-name="" data-role="Student" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0"></div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
-<div class="node" data-name="Iiro Immonen" data-role="ML researcher" data-rel="Neutral" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: ML researcher; Last activity: ; Sales activities: 0">Iiro Immonen</div><div class="role">ML researcher</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span></div></div></div>
-<div class="node" data-name="Pleiviska Leiviska" data-role="Student" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0">Pleiviska Leiviska</div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
-<div class="node" data-name="toanpaul" data-role="Student" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0">toanpaul</div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
-<div class="node" data-name="Pertti Arvola" data-role="Other" data-rel="Neutral" data-activities="3"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Other; Last activity: 2024-08-21 08:29; Sales activities: 3">Pertti Arvola</div><div class="role">Other</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">3 activities</span></div></div></div>
-<div class="node" data-name="Ari Mikkola" data-role="Other" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Other; Last activity: ; Sales activities: 0">Ari Mikkola</div><div class="role">Other</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
-<div class="node" data-name="Juha Hoffrén" data-role="ML researcher" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: ML researcher; Last activity: ; Sales activities: 0">Juha Hoffrén</div><div class="role">ML researcher</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
-<div class="node" data-name="Pyry Kotilainen" data-role="Student" data-rel="Neutral" data-activities="1"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: 2021-07-15 11:28; Sales activities: 1">Pyry Kotilainen</div><div class="role">Student</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">1 activities</span></div></div></div>
-<div class="node" data-name="Aleksi Ojapelto" data-role="Other" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Other; Last activity: ; Sales activities: 0">Aleksi Ojapelto</div><div class="role">Other</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
-<div class="node" data-name="Mikhail Zolotukhin" data-role="Unknown" data-rel="Neutral" data-activities="1"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Unknown; Last activity: 2021-07-15 11:32; Sales activities: 1">Mikhail Zolotukhin</div><div class="role">Unknown</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">1 activities</span></div></div></div>
-<div class="node" data-name="Jukka Ihalainen" data-role="Uni" data-rel="Neutral" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Uni; Last activity: ; Sales activities: 0">Jukka Ihalainen</div><div class="role">Uni</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span></div></div></div>
-<div class="node" data-name="Timo Hongell" data-role="Project Researcher" data-rel="Neutral" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Project Researcher; Last activity: 2025-10-29 09:26; Sales activities:">Timo Hongell</div><div class="role">Project Researcher</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span></div></div></div>
-<div class="node" data-name="Osto Laskut" data-role="Univ" data-rel="Neutral" data-activities="21"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Univ; Last activity: 2025-10-29 09:26; Sales activities: 21">Osto Laskut</div><div class="role">Univ</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">21 activities</span></div></div></div>
-<div class="node" data-name="Andrei Costin" data-role="Assistant Professor CyberSecurity" data-rel="Neutral" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Assistant Professor CyberSecurity; Last activity: 2023-12-11 10:48;">Andrei Costin</div><div class="role">Assistant Professor CyberSecurity</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span></div></div></div></div></div></div>
+<div class="row"><div class="label">Team Hierarchy</div>
+<div class="team-section"><h4 class="team-header">Edge AI / Research <span>2</span></h4><div class="team-ics"><div class="node-grid"><div class="node" data-name="Iiro Immonen" data-role="ML researcher" data-rel="Neutral" data-activities="0" data-team="Edge AI / Research" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: ML researcher; Last activity: ; Sales activities: 0">Iiro Immonen <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">ML researcher</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">Edge AI / Research</span></div></div></div>
+<div class="node" data-name="Juha Hoffrén" data-role="ML researcher" data-rel="Ally" data-activities="0" data-team="Edge AI / Research" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: ML researcher; Last activity: ; Sales activities: 0">Juha Hoffrén <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">ML researcher</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">Edge AI / Research</span></div></div></div></div></div></div>
+<div class="team-section"><h4 class="team-header">General <span>14</span></h4><div class="team-ics"><div class="node-grid"><div class="node" data-name="Aleksi Ojapelto" data-role="Other" data-rel="Ally" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Other; Last activity: ; Sales activities: 0">Aleksi Ojapelto <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Other</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Andrei Costin" data-role="Assistant Professor CyberSecurity" data-rel="Neutral" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Assistant Professor CyberSecurity; Last activity: 2023-12-11 10:48;">Andrei Costin <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Assistant Professor CyberSecurity</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Ari Mikkola" data-role="Other" data-rel="Ally" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Other; Last activity: ; Sales activities: 0">Ari Mikkola <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Other</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Jukka Ihalainen" data-role="Uni" data-rel="Neutral" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Uni; Last activity: ; Sales activities: 0">Jukka Ihalainen <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Uni</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Mikhail Zolotukhin" data-role="Unknown" data-rel="Neutral" data-activities="1" data-team="General" data-eng="neutral"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Unknown; Last activity: 2021-07-15 11:32; Sales activities: 1">Mikhail Zolotukhin <span class="eng-dot eng-neutral" title="Engagement: neutral"></span></div><div class="role">Unknown</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">1 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Osto Laskut" data-role="Univ" data-rel="Neutral" data-activities="21" data-team="General" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Univ; Last activity: 2025-10-29 09:26; Sales activities: 21">Osto Laskut <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Univ</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">21 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Pertti Arvola" data-role="Other" data-rel="Neutral" data-activities="3" data-team="General" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Other; Last activity: 2024-08-21 08:29; Sales activities: 3">Pertti Arvola <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Other</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">3 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Pleiviska Leiviska" data-role="Student" data-rel="Ally" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0">Pleiviska Leiviska <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Pyry Kotilainen" data-role="Student" data-rel="Neutral" data-activities="1" data-team="General" data-eng="neutral"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: 2021-07-15 11:28; Sales activities: 1">Pyry Kotilainen <span class="eng-dot eng-neutral" title="Engagement: neutral"></span></div><div class="role">Student</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">1 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Timo Hongell" data-role="Project Researcher" data-rel="Neutral" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Project Researcher; Last activity: 2025-10-29 09:26; Sales activities:">Timo Hongell <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Project Researcher</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="asunaah" data-role="Student" data-rel="Ally" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0">asunaah <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="mannisle" data-role="Student" data-rel="Ally" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0">mannisle <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="sourander" data-role="Student" data-rel="Ally" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0">sourander <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="toanpaul" data-role="Student" data-rel="Ally" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0">toanpaul <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div></div></div></div>
+<div class="team-section"><h4 class="team-header">Leadership <span>2</span></h4><div class="team-management"><div class="tree-node" style="margin-left:0px;"><div class="node" data-name="Marko Aittola" data-role="Director" data-rel="Neutral" data-activities="23" data-eng="warm" style="display:inline-block;margin:6px 0;"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Director; Last activity: 2025-10-29 09:26; Sales activities: 23">Marko Aittola <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Director</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">23 activities</span></div></div></div></div></div><div class="team-ics"><div class="node-grid"><div class="node" data-name="Leena Hellman" data-role="Doctoral Researcher" data-rel="Neutral" data-activities="0" data-team="Leadership" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Doctoral Researcher; Last activity: ; Sales activities: 0">Leena Hellman <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Doctoral Researcher</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">Leadership</span></div></div></div></div></div></div>
+<div class="team-section"><h4 class="team-header">Operations <span>2</span></h4><div class="team-management"><div class="tree-node" style="margin-left:0px;"><div class="node" data-name="Ilkka Kivelä" data-role="Project Manager" data-rel="Neutral" data-activities="0" data-eng="cold" style="display:inline-block;margin:6px 0;"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Project Manager; Last activity: ; Sales activities: 0">Ilkka Kivelä <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Project Manager</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span></div></div></div></div><div class="tree-node" style="margin-left:0px;"><div class="node" data-name="Rony Lepp√§nen" data-role="Project Manager" data-rel="Neutral" data-activities="0" data-eng="cold" style="display:inline-block;margin:6px 0;"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Project Manager; Last activity: 2025-10-29 09:26; Sales activities:">Rony Lepp√§nen <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Project Manager</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span></div></div></div></div></div></div>
+<div class="team-section"><h4 class="team-header">Software Engineering <span>1</span></h4><div class="team-ics"><div class="node-grid"><div class="node" data-name="Juuso Solonen" data-role="Software Developer" data-rel="Ally" data-activities="0" data-team="Software Engineering" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Software Developer; Last activity: ; Sales activities: 0">Juuso Solonen <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Software Developer</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">Software Engineering</span></div></div></div></div></div></div>
+</div>
+<div class="row"><div class="label">Leadership / High Influence</div><div class="node-grid"><div class="node" data-name="Leena Hellman" data-role="Doctoral Researcher" data-rel="Neutral" data-activities="0" data-team="Leadership" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Doctoral Researcher; Last activity: ; Sales activities: 0">Leena Hellman <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Doctoral Researcher</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">Leadership</span></div></div></div>
+<div class="node" data-name="Marko Aittola" data-role="Director" data-rel="Neutral" data-activities="23" data-team="Leadership" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Director; Last activity: 2025-10-29 09:26; Sales activities: 23">Marko Aittola <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Director</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">23 activities</span><span class="badge badge-outline" style="font-size:9px;">Leadership</span></div></div></div></div></div>
+<div class="row"><div class="label">Technical / Medium Influence</div><div class="node-grid"><div class="node" data-name="Ilkka Kivelä" data-role="Project Manager" data-rel="Neutral" data-activities="0" data-team="Operations" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Project Manager; Last activity: ; Sales activities: 0">Ilkka Kivelä <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Project Manager</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">Operations</span></div></div></div>
+<div class="node" data-name="Rony Lepp√§nen" data-role="Project Manager" data-rel="Neutral" data-activities="0" data-team="Operations" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Project Manager; Last activity: 2025-10-29 09:26; Sales activities:">Rony Lepp√§nen <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Project Manager</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">Operations</span></div></div></div></div></div>
+<div class="row"><div class="label">Operational / Low Influence</div><div class="group"><h4>Software / Firmware</h4><div class="node-grid"><div class="node" data-name="Juuso Solonen" data-role="Software Developer" data-rel="Ally" data-activities="0" data-team="Software Engineering" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Software Developer; Last activity: ; Sales activities: 0">Juuso Solonen <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Software Developer</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">Software Engineering</span></div></div></div></div></div><div class="group"><h4>Business / Admin</h4><div class="node-grid"><div class="node" data-name="mannisle" data-role="Student" data-rel="Ally" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0">mannisle <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="asunaah" data-role="Student" data-rel="Ally" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0">asunaah <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="sourander" data-role="Student" data-rel="Ally" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0">sourander <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Iiro Immonen" data-role="ML researcher" data-rel="Neutral" data-activities="0" data-team="Edge AI / Research" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: ML researcher; Last activity: ; Sales activities: 0">Iiro Immonen <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">ML researcher</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">Edge AI / Research</span></div></div></div>
+<div class="node" data-name="Pleiviska Leiviska" data-role="Student" data-rel="Ally" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0">Pleiviska Leiviska <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="toanpaul" data-role="Student" data-rel="Ally" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: ; Sales activities: 0">toanpaul <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Student</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Pertti Arvola" data-role="Other" data-rel="Neutral" data-activities="3" data-team="General" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Other; Last activity: 2024-08-21 08:29; Sales activities: 3">Pertti Arvola <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Other</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">3 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Ari Mikkola" data-role="Other" data-rel="Ally" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Other; Last activity: ; Sales activities: 0">Ari Mikkola <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Other</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Juha Hoffrén" data-role="ML researcher" data-rel="Ally" data-activities="0" data-team="Edge AI / Research" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: ML researcher; Last activity: ; Sales activities: 0">Juha Hoffrén <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">ML researcher</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">Edge AI / Research</span></div></div></div>
+<div class="node" data-name="Pyry Kotilainen" data-role="Student" data-rel="Neutral" data-activities="1" data-team="General" data-eng="neutral"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Student; Last activity: 2021-07-15 11:28; Sales activities: 1">Pyry Kotilainen <span class="eng-dot eng-neutral" title="Engagement: neutral"></span></div><div class="role">Student</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">1 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Aleksi Ojapelto" data-role="Other" data-rel="Ally" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Other; Last activity: ; Sales activities: 0">Aleksi Ojapelto <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Other</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Mikhail Zolotukhin" data-role="Unknown" data-rel="Neutral" data-activities="1" data-team="General" data-eng="neutral"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Unknown; Last activity: 2021-07-15 11:32; Sales activities: 1">Mikhail Zolotukhin <span class="eng-dot eng-neutral" title="Engagement: neutral"></span></div><div class="role">Unknown</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">1 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Jukka Ihalainen" data-role="Uni" data-rel="Neutral" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Uni; Last activity: ; Sales activities: 0">Jukka Ihalainen <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Uni</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Timo Hongell" data-role="Project Researcher" data-rel="Neutral" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Project Researcher; Last activity: 2025-10-29 09:26; Sales activities:">Timo Hongell <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Project Researcher</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Osto Laskut" data-role="Univ" data-rel="Neutral" data-activities="21" data-team="General" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Univ; Last activity: 2025-10-29 09:26; Sales activities: 21">Osto Laskut <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Univ</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">21 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Andrei Costin" data-role="Assistant Professor CyberSecurity" data-rel="Neutral" data-activities="0" data-team="General" data-eng="cold"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Assistant Professor CyberSecurity; Last activity: 2023-12-11 10:48;">Andrei Costin <span class="eng-dot eng-cold" title="Engagement: cold"></span></div><div class="role">Assistant Professor CyberSecurity</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">0 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div></div></div></div>
     </div>
 
     <div class="tooltip" id="tooltip"></div>
@@ -323,25 +456,45 @@
     // Client-side search + filter
     const searchInput = document.getElementById('search');
     const filterSelect = document.getElementById('filter-rel');
+    const teamFilter = document.getElementById('filter-team');
+    const engFilter = document.getElementById('filter-eng');
     const nodes = document.querySelectorAll('.node');
     const tooltip = document.getElementById('tooltip');
 
-    function filterNodes() {
-      const searchTerm = searchInput.value.toLowerCase();
-      const relFilter = filterSelect.value;
+    // Populate team filter options dynamically
+    const teams = new Set();
+    nodes.forEach(node => teams.add(node.dataset.team));
+    teams.forEach(team => {
+      const opt = document.createElement('option');
+      opt.value = team;
+      opt.textContent = team;
+      teamFilter.appendChild(opt);
+    });
 
-      nodes.forEach(node => {
-        const name = node.dataset.name.toLowerCase();
-        const role = node.dataset.role.toLowerCase();
-        const rel = node.dataset.rel;
-        const matchesSearch = name.includes(searchTerm) || role.includes(searchTerm);
-        const matchesRel = relFilter === 'all' || rel === relFilter;
-        node.style.display = (matchesSearch && matchesRel) ? '' : 'none';
-      });
+    function filterNodes() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const relFilter = filterSelect.value;
+    const teamFilterVal = teamFilter.value;
+    const engFilterVal = engFilter.value;
+
+    nodes.forEach(node => {
+      const name = node.dataset.name.toLowerCase();
+      const role = node.dataset.role.toLowerCase();
+      const rel = node.dataset.rel;
+      const team = node.dataset.team;
+      const eng = node.dataset.eng || 'unknown';
+      const matchesSearch = name.includes(searchTerm) || role.includes(searchTerm);
+      const matchesRel = relFilter === 'all' || rel === relFilter;
+      const matchesTeam = teamFilterVal === 'all' || team === teamFilterVal;
+      const matchesEng = engFilterVal === 'all' || eng === engFilterVal;
+      node.style.display = (matchesSearch && matchesRel && matchesTeam && matchesEng) ? '' : 'none';
+    });
     }
 
     searchInput.addEventListener('input', filterNodes);
     filterSelect.addEventListener('change', filterNodes);
+    teamFilter.addEventListener('change', filterNodes);
+    engFilter.addEventListener('change', filterNodes);
 
     // Tooltip on hover
     document.addEventListener('mousemove', (e) => {

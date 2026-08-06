@@ -209,6 +209,100 @@
     padding: 14px;
     margin-top: 10px;
   }
+  .tree-section {
+    margin-top: 10px;
+  }
+  .tree-section > .row {
+    display: block;
+    padding: 14px;
+    border-radius: 12px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+  }
+  .tree-node {
+    position: relative;
+  }
+  .tree-node .node:hover {
+    z-index: 10;
+  }
+  .tree-children {
+    position: relative;
+    margin-left: 24px;
+    border-left: 2px dashed #334155;
+    padding-left: 14px;
+    margin-top: 8px;
+  }
+  .tree-children::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -1px;
+    width: 2px;
+    height: 8px;
+    background: #334155;
+  }
+  .tree-children > .tree-node {
+    margin-bottom: 6px;
+  }
+  .ic-grid {
+    margin-left: 24px;
+    padding-left: 14px;
+  }
+  .team-section {
+    margin-bottom: 24px;
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 16px;
+    background: rgba(15,23,42,0.3);
+  }
+  .team-header {
+    margin: 0 0 14px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .team-header::before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--card-border);
+  }
+  .team-header span {
+    background: var(--card);
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    color: var(--heading);
+    border: 1px solid var(--card-border);
+  }
+  .team-management {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .team-ics {
+    padding-left: 14px;
+    border-left: 2px dashed var(--card-border);
+    margin-top: 10px;
+  }
+  /* Engagement indicator dots */
+  .eng-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .eng-warm { background: var(--high); }
+  .eng-neutral { background: #f59e0b; }
+  .eng-cold { background: var(--low); }
+  .eng-unknown { background: #6b7280; }
   .group h4 {
     margin: 0 0 12px;
     font-size: 12px;
@@ -274,6 +368,18 @@
         <option value="Marketing">Marketing</option>
         <option value="Neutral">Neutral</option>
       </select>
+
+      <select id="filter-team">
+        <option value="all">All Teams</option>
+      </select>
+
+      <select id="filter-eng">
+        <option value="all">All Engagement</option>
+        <option value="warm">Warm</option>
+        <option value="neutral">Neutral</option>
+        <option value="cold">Cold</option>
+        <option value="unknown">Unknown</option>
+      </select>
     </div>
 
     <div class="legend">
@@ -287,21 +393,40 @@
       <div class="pill"><span class="swatch rel" style="background:var(--rel-marketing)"></span>Marketing</div>
     </div>
 
+    <div class="legend">
+      <div class="pill"><span class="eng-dot eng-warm" style="margin-left:0"></span>Engaged (last 90 days)</div>
+      <div class="pill"><span class="eng-dot eng-neutral" style="margin-left:0"></span>Touched (90-180 days)</div>
+      <div class="pill"><span class="eng-dot eng-cold" style="margin-left:0"></span> No recent activity</div>
+      <div class="pill"><span class="eng-dot eng-unknown" style="margin-left:0"></span>Status unknown</div>
+    </div>
+
     <div class="stage">
-<div class="row"><div class="label">Leadership / High Influence</div><div class="node-grid"><div class="node" data-name="Andrew Innes" data-role="Senior Director Embedded Software Engineering" data-rel="Ally" data-activities="6"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Senior Director Embedded Software Engineering; Last activity: 2025-08-13 14:58; Sales activities: 6">Andrew Innes</div><div class="role">Senior Director Embedded Software Engineering</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">6 activities</span></div></div></div>
-<div class="node" data-name="Kalyan Dasari" data-role="Head of Quality Engineering" data-rel="Ally" data-activities="1"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Head of Quality Engineering; Last activity: 2021-06-03 13:23; Sales activities: 1">Kalyan Dasari</div><div class="role">Head of Quality Engineering</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">1 activities</span></div></div></div>
-<div class="node" data-name="Niklas Johnsson" data-role="Director of Data Science" data-rel="Ally" data-activities="2"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Director of Data Science; Last activity: 2022-03-01 17:29; Sales activities: 2">Niklas Johnsson</div><div class="role">Director of Data Science</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">2 activities</span></div></div></div>
-<div class="node" data-name="Sachin Dosi" data-role="VP Audio Engineering, Hybrid Systems" data-rel="Ally" data-activities="2"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: VP Audio Engineering, Hybrid Systems; Last activity: 2022-02-22 08:13; Sales activities: 2">Sachin Dosi</div><div class="role">VP Audio Engineering, Hybrid Systems</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">2 activities</span></div></div></div>
-<div class="node" data-name="Shiri Gal" data-role="Sr. Director Global Engineering Support" data-rel="Ally" data-activities="2"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Sr. Director Global Engineering Support; Last activity: 2022-02-22 08:39; Sales activities: 2">Shiri Gal</div><div class="role">Sr. Director Global Engineering Support</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">2 activities</span></div></div></div>
-<div class="node" data-name="Wilson Chung" data-role="CTO" data-rel="Ally" data-activities="127"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: CTO; Last activity: 2026-04-09 08:51; Sales activities: 127">Wilson Chung</div><div class="role">CTO</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">127 activities</span></div></div></div></div></div>
-<div class="row"><div class="label">Technical / Medium Influence</div><div class="node-grid"><div class="node" data-name="Jake Brown" data-role="ML Firmware Integration Engineer" data-rel="Neutral" data-activities="118"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: ML Firmware Integration Engineer; Last activity: 2025-10-23 15:24; Sales activities: 118">Jake Brown</div><div class="role">ML Firmware Integration Engineer</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">118 activities</span></div></div></div>
-<div class="node" data-name="Kevin Fang" data-role="Firmware Engineer" data-rel="Neutral" data-activities="30"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Firmware Engineer; Last activity: 2026-03-03 08:31; Sales activities: 30">Kevin Fang</div><div class="role">Firmware Engineer</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">30 activities</span></div></div></div>
-<div class="node" data-name="Paige Fordice" data-role="Sr. Program Manager" data-rel="Ally" data-activities="3"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Sr. Program Manager; Last activity: 2022-11-16 12:15; Sales activities: 3">Paige Fordice</div><div class="role">Sr. Program Manager</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">3 activities</span></div></div></div>
-<div class="node" data-name="Scott Walsh" data-role="Distinguished Engineer, Headset Engineering" data-rel="Neutral" data-activities="4"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Distinguished Engineer, Headset Engineering; Last activity: 2022-10-21 01:41; Sales activities: 4">Scott Walsh</div><div class="role">Distinguished Engineer, Headset Engineering</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">4 activities</span></div></div></div>
-<div class="node" data-name="Srinath Balaraman" data-role="System Architect" data-rel="Neutral" data-activities="5"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: System Architect; Last activity: 2024-04-02 21:00; Sales activities: 5">Srinath Balaraman</div><div class="role">System Architect</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">5 activities</span></div></div></div>
-<div class="node" data-name="Stephen Schaefer" data-role="Principal Engineer - Future Customer Experiences" data-rel="Neutral" data-activities="3"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Principal Engineer - Future Customer Experiences; Last activity: 2022-11-16 13:15; Sales activities: 3">Stephen Schaefer</div><div class="role">Principal Engineer - Future Customer Experiences</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">3 activities</span></div></div></div>
-<div class="node" data-name="Vipin Pathak" data-role="Manager, Software Development" data-rel="Ally" data-activities="7"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Manager, Software Development; Last activity: 2024-10-15 12:47; Sales activities: 7">Vipin Pathak</div><div class="role">Manager, Software Development</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">7 activities</span></div></div></div></div></div>
-<div class="row"><div class="label">Operational / Low Influence</div><div class="group"><h4>Software / Firmware</h4><div class="node-grid"><div class="node" data-name="Anh Nguyen" data-role="System Engineer" data-rel="Neutral" data-activities="5"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: System Engineer; Last activity: 2024-01-26 06:00; Sales activities: 5">Anh Nguyen</div><div class="role">System Engineer</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">5 activities</span></div></div></div></div></div><div class="group"><h4>Business / Admin</h4><div class="node-grid"><div class="node" data-name="Accounts Payable" data-role="Accounts Payable - Invoices" data-rel="Ally" data-activities="12"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Accounts Payable - Invoices; Last activity: 2024-07-12 03:22; Sales activities: 12">Accounts Payable</div><div class="role">Accounts Payable - Invoices</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">12 activities</span></div></div></div></div></div></div>
+<div class="row"><div class="label">Team Hierarchy</div>
+<div class="team-section"><h4 class="team-header">Edge AI / Research <span>1</span></h4><div class="team-management"><div class="tree-node" style="margin-left:0px;"><div class="node" data-name="Sachin Dosi" data-role="VP Audio Engineering, Hybrid Systems" data-rel="Ally" data-activities="2" data-eng="neutral" style="display:inline-block;margin:6px 0;"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: VP Audio Engineering, Hybrid Systems; Last activity: 2022-02-22 08:13; Sales activities: 2">Sachin Dosi <span class="eng-dot eng-neutral" title="Engagement: neutral"></span></div><div class="role">VP Audio Engineering, Hybrid Systems</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">2 activities</span></div></div></div></div></div></div>
+<div class="team-section"><h4 class="team-header">General <span>6</span></h4><div class="team-management"><div class="tree-node" style="margin-left:0px;"><div class="node" data-name="Kalyan Dasari" data-role="Head of Quality Engineering" data-rel="Ally" data-activities="1" data-eng="neutral" style="display:inline-block;margin:6px 0;"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Head of Quality Engineering; Last activity: 2021-06-03 13:23; Sales activities: 1">Kalyan Dasari <span class="eng-dot eng-neutral" title="Engagement: neutral"></span></div><div class="role">Head of Quality Engineering</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">1 activities</span></div></div></div></div><div class="tree-node" style="margin-left:0px;"><div class="node" data-name="Vipin Pathak" data-role="Manager, Software Development" data-rel="Ally" data-activities="7" data-eng="warm" style="display:inline-block;margin:6px 0;"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Manager, Software Development; Last activity: 2024-10-15 12:47; Sales activities: 7">Vipin Pathak <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Manager, Software Development</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">7 activities</span></div></div></div></div></div><div class="team-ics"><div class="node-grid"><div class="node" data-name="Anh Nguyen" data-role="System Engineer" data-rel="Neutral" data-activities="5" data-team="General" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: System Engineer; Last activity: 2024-01-26 06:00; Sales activities: 5">Anh Nguyen <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">System Engineer</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">5 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Scott Walsh" data-role="Distinguished Engineer, Headset Engineering" data-rel="Neutral" data-activities="4" data-team="General" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Distinguished Engineer, Headset Engineering; Last activity: 2022-10-21 01:41; Sales activities: 4">Scott Walsh <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Distinguished Engineer, Headset Engineering</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">4 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Srinath Balaraman" data-role="System Architect" data-rel="Neutral" data-activities="5" data-team="General" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: System Architect; Last activity: 2024-04-02 21:00; Sales activities: 5">Srinath Balaraman <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">System Architect</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">5 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Stephen Schaefer" data-role="Principal Engineer - Future Customer Experiences" data-rel="Neutral" data-activities="3" data-team="General" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Principal Engineer - Future Customer Experiences; Last activity: 2022-11-16 13:15; Sales activities: 3">Stephen Schaefer <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Principal Engineer - Future Customer Experiences</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">3 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div></div></div></div>
+<div class="team-section"><h4 class="team-header">Leadership <span>3</span></h4><div class="team-management"><div class="tree-node" style="margin-left:0px;"><div class="node" data-name="Niklas Johnsson" data-role="Director of Data Science" data-rel="Ally" data-activities="2" data-eng="neutral" style="display:inline-block;margin:6px 0;"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Director of Data Science; Last activity: 2022-03-01 17:29; Sales activities: 2">Niklas Johnsson <span class="eng-dot eng-neutral" title="Engagement: neutral"></span></div><div class="role">Director of Data Science</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">2 activities</span></div></div></div></div><div class="tree-node" style="margin-left:0px;"><div class="node" data-name="Shiri Gal" data-role="Sr. Director Global Engineering Support" data-rel="Ally" data-activities="2" data-eng="neutral" style="display:inline-block;margin:6px 0;"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Sr. Director Global Engineering Support; Last activity: 2022-02-22 08:39; Sales activities: 2">Shiri Gal <span class="eng-dot eng-neutral" title="Engagement: neutral"></span></div><div class="role">Sr. Director Global Engineering Support</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">2 activities</span></div></div></div></div></div><div class="team-ics"><div class="node-grid"><div class="node" data-name="Wilson Chung" data-role="CTO" data-rel="Ally" data-activities="127" data-team="Leadership" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: CTO; Last activity: 2026-04-09 08:51; Sales activities: 127">Wilson Chung <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">CTO</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">127 activities</span><span class="badge badge-outline" style="font-size:9px;">Leadership</span></div></div></div></div></div></div>
+<div class="team-section"><h4 class="team-header">Operations <span>1</span></h4><div class="team-management"><div class="tree-node" style="margin-left:0px;"><div class="node" data-name="Paige Fordice" data-role="Sr. Program Manager" data-rel="Ally" data-activities="3" data-eng="warm" style="display:inline-block;margin:6px 0;"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Sr. Program Manager; Last activity: 2022-11-16 12:15; Sales activities: 3">Paige Fordice <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Sr. Program Manager</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">3 activities</span></div></div></div></div></div></div>
+<div class="team-section"><h4 class="team-header">Sales & BizDev <span>1</span></h4><div class="team-ics"><div class="node-grid"><div class="node" data-name="Accounts Payable" data-role="Accounts Payable - Invoices" data-rel="Ally" data-activities="12" data-team="Sales & BizDev" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Accounts Payable - Invoices; Last activity: 2024-07-12 03:22; Sales activities: 12">Accounts Payable <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Accounts Payable - Invoices</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">12 activities</span><span class="badge badge-outline" style="font-size:9px;">Sales & BizDev</span></div></div></div></div></div></div>
+<div class="team-section"><h4 class="team-header">Software Engineering <span>3</span></h4><div class="team-management"><div class="tree-node" style="margin-left:0px;"><div class="node" data-name="Andrew Innes" data-role="Senior Director Embedded Software Engineering" data-rel="Ally" data-activities="6" data-eng="warm" style="display:inline-block;margin:6px 0;"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Senior Director Embedded Software Engineering; Last activity: 2025-08-13 14:58; Sales activities: 6">Andrew Innes <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Senior Director Embedded Software Engineering</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">6 activities</span></div></div></div></div></div><div class="team-ics"><div class="node-grid"><div class="node" data-name="Jake Brown" data-role="ML Firmware Integration Engineer" data-rel="Neutral" data-activities="118" data-team="Software Engineering" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: ML Firmware Integration Engineer; Last activity: 2025-10-23 15:24; Sales activities: 118">Jake Brown <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">ML Firmware Integration Engineer</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">118 activities</span><span class="badge badge-outline" style="font-size:9px;">Software Engineering</span></div></div></div>
+<div class="node" data-name="Kevin Fang" data-role="Firmware Engineer" data-rel="Neutral" data-activities="30" data-team="Software Engineering" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Firmware Engineer; Last activity: 2026-03-03 08:31; Sales activities: 30">Kevin Fang <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Firmware Engineer</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">30 activities</span><span class="badge badge-outline" style="font-size:9px;">Software Engineering</span></div></div></div></div></div></div>
+</div>
+<div class="row"><div class="label">Leadership / High Influence</div><div class="node-grid"><div class="node" data-name="Andrew Innes" data-role="Senior Director Embedded Software Engineering" data-rel="Ally" data-activities="6" data-team="Software Engineering" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Senior Director Embedded Software Engineering; Last activity: 2025-08-13 14:58; Sales activities: 6">Andrew Innes <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Senior Director Embedded Software Engineering</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">6 activities</span><span class="badge badge-outline" style="font-size:9px;">Software Engineering</span></div></div></div>
+<div class="node" data-name="Kalyan Dasari" data-role="Head of Quality Engineering" data-rel="Ally" data-activities="1" data-team="General" data-eng="neutral"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Head of Quality Engineering; Last activity: 2021-06-03 13:23; Sales activities: 1">Kalyan Dasari <span class="eng-dot eng-neutral" title="Engagement: neutral"></span></div><div class="role">Head of Quality Engineering</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">1 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Niklas Johnsson" data-role="Director of Data Science" data-rel="Ally" data-activities="2" data-team="Leadership" data-eng="neutral"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Director of Data Science; Last activity: 2022-03-01 17:29; Sales activities: 2">Niklas Johnsson <span class="eng-dot eng-neutral" title="Engagement: neutral"></span></div><div class="role">Director of Data Science</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">2 activities</span><span class="badge badge-outline" style="font-size:9px;">Leadership</span></div></div></div>
+<div class="node" data-name="Sachin Dosi" data-role="VP Audio Engineering, Hybrid Systems" data-rel="Ally" data-activities="2" data-team="Edge AI / Research" data-eng="neutral"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: VP Audio Engineering, Hybrid Systems; Last activity: 2022-02-22 08:13; Sales activities: 2">Sachin Dosi <span class="eng-dot eng-neutral" title="Engagement: neutral"></span></div><div class="role">VP Audio Engineering, Hybrid Systems</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">2 activities</span><span class="badge badge-outline" style="font-size:9px;">Edge AI / Research</span></div></div></div>
+<div class="node" data-name="Shiri Gal" data-role="Sr. Director Global Engineering Support" data-rel="Ally" data-activities="2" data-team="Leadership" data-eng="neutral"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Sr. Director Global Engineering Support; Last activity: 2022-02-22 08:39; Sales activities: 2">Shiri Gal <span class="eng-dot eng-neutral" title="Engagement: neutral"></span></div><div class="role">Sr. Director Global Engineering Support</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">2 activities</span><span class="badge badge-outline" style="font-size:9px;">Leadership</span></div></div></div>
+<div class="node" data-name="Wilson Chung" data-role="CTO" data-rel="Ally" data-activities="127" data-team="Leadership" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: CTO; Last activity: 2026-04-09 08:51; Sales activities: 127">Wilson Chung <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">CTO</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">127 activities</span><span class="badge badge-outline" style="font-size:9px;">Leadership</span></div></div></div></div></div>
+<div class="row"><div class="label">Technical / Medium Influence</div><div class="node-grid"><div class="node" data-name="Jake Brown" data-role="ML Firmware Integration Engineer" data-rel="Neutral" data-activities="118" data-team="Software Engineering" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: ML Firmware Integration Engineer; Last activity: 2025-10-23 15:24; Sales activities: 118">Jake Brown <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">ML Firmware Integration Engineer</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">118 activities</span><span class="badge badge-outline" style="font-size:9px;">Software Engineering</span></div></div></div>
+<div class="node" data-name="Kevin Fang" data-role="Firmware Engineer" data-rel="Neutral" data-activities="30" data-team="Software Engineering" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Firmware Engineer; Last activity: 2026-03-03 08:31; Sales activities: 30">Kevin Fang <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Firmware Engineer</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">30 activities</span><span class="badge badge-outline" style="font-size:9px;">Software Engineering</span></div></div></div>
+<div class="node" data-name="Paige Fordice" data-role="Sr. Program Manager" data-rel="Ally" data-activities="3" data-team="Operations" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Sr. Program Manager; Last activity: 2022-11-16 12:15; Sales activities: 3">Paige Fordice <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Sr. Program Manager</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">3 activities</span><span class="badge badge-outline" style="font-size:9px;">Operations</span></div></div></div>
+<div class="node" data-name="Scott Walsh" data-role="Distinguished Engineer, Headset Engineering" data-rel="Neutral" data-activities="4" data-team="General" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Distinguished Engineer, Headset Engineering; Last activity: 2022-10-21 01:41; Sales activities: 4">Scott Walsh <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Distinguished Engineer, Headset Engineering</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">4 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Srinath Balaraman" data-role="System Architect" data-rel="Neutral" data-activities="5" data-team="General" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: System Architect; Last activity: 2024-04-02 21:00; Sales activities: 5">Srinath Balaraman <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">System Architect</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">5 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Stephen Schaefer" data-role="Principal Engineer - Future Customer Experiences" data-rel="Neutral" data-activities="3" data-team="General" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Principal Engineer - Future Customer Experiences; Last activity: 2022-11-16 13:15; Sales activities: 3">Stephen Schaefer <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Principal Engineer - Future Customer Experiences</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">3 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div>
+<div class="node" data-name="Vipin Pathak" data-role="Manager, Software Development" data-rel="Ally" data-activities="7" data-team="General" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Manager, Software Development; Last activity: 2024-10-15 12:47; Sales activities: 7">Vipin Pathak <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Manager, Software Development</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">7 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div></div></div>
+<div class="row"><div class="label">Operational / Low Influence</div><div class="group"><h4>Software / Firmware</h4><div class="node-grid"><div class="node" data-name="Anh Nguyen" data-role="System Engineer" data-rel="Neutral" data-activities="5" data-team="General" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: System Engineer; Last activity: 2024-01-26 06:00; Sales activities: 5">Anh Nguyen <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">System Engineer</div><div class="meta"><span class="badge rel-neutral">Neutral</span><span class="badge badge-outline">5 activities</span><span class="badge badge-outline" style="font-size:9px;">General</span></div></div></div></div></div><div class="group"><h4>Business / Admin</h4><div class="node-grid"><div class="node" data-name="Accounts Payable" data-role="Accounts Payable - Invoices" data-rel="Ally" data-activities="12" data-team="Sales & BizDev" data-eng="warm"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Accounts Payable - Invoices; Last activity: 2024-07-12 03:22; Sales activities: 12">Accounts Payable <span class="eng-dot eng-warm" title="Engagement: warm"></span></div><div class="role">Accounts Payable - Invoices</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">12 activities</span><span class="badge badge-outline" style="font-size:9px;">Sales & BizDev</span></div></div></div></div></div></div>
     </div>
 
     <div class="tooltip" id="tooltip"></div>
@@ -316,25 +441,45 @@
     // Client-side search + filter
     const searchInput = document.getElementById('search');
     const filterSelect = document.getElementById('filter-rel');
+    const teamFilter = document.getElementById('filter-team');
+    const engFilter = document.getElementById('filter-eng');
     const nodes = document.querySelectorAll('.node');
     const tooltip = document.getElementById('tooltip');
 
-    function filterNodes() {
-      const searchTerm = searchInput.value.toLowerCase();
-      const relFilter = filterSelect.value;
+    // Populate team filter options dynamically
+    const teams = new Set();
+    nodes.forEach(node => teams.add(node.dataset.team));
+    teams.forEach(team => {
+      const opt = document.createElement('option');
+      opt.value = team;
+      opt.textContent = team;
+      teamFilter.appendChild(opt);
+    });
 
-      nodes.forEach(node => {
-        const name = node.dataset.name.toLowerCase();
-        const role = node.dataset.role.toLowerCase();
-        const rel = node.dataset.rel;
-        const matchesSearch = name.includes(searchTerm) || role.includes(searchTerm);
-        const matchesRel = relFilter === 'all' || rel === relFilter;
-        node.style.display = (matchesSearch && matchesRel) ? '' : 'none';
-      });
+    function filterNodes() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const relFilter = filterSelect.value;
+    const teamFilterVal = teamFilter.value;
+    const engFilterVal = engFilter.value;
+
+    nodes.forEach(node => {
+      const name = node.dataset.name.toLowerCase();
+      const role = node.dataset.role.toLowerCase();
+      const rel = node.dataset.rel;
+      const team = node.dataset.team;
+      const eng = node.dataset.eng || 'unknown';
+      const matchesSearch = name.includes(searchTerm) || role.includes(searchTerm);
+      const matchesRel = relFilter === 'all' || rel === relFilter;
+      const matchesTeam = teamFilterVal === 'all' || team === teamFilterVal;
+      const matchesEng = engFilterVal === 'all' || eng === engFilterVal;
+      node.style.display = (matchesSearch && matchesRel && matchesTeam && matchesEng) ? '' : 'none';
+    });
     }
 
     searchInput.addEventListener('input', filterNodes);
     filterSelect.addEventListener('change', filterNodes);
+    teamFilter.addEventListener('change', filterNodes);
+    engFilter.addEventListener('change', filterNodes);
 
     // Tooltip on hover
     document.addEventListener('mousemove', (e) => {

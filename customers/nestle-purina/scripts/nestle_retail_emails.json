@@ -1,0 +1,134 @@
+{
+  "children": [
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "heading_2",
+      "heading_2": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "🏪 Retail & Consumer Engagement Outreach"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**To:** Customer Marketing Director"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**Subject:** Enhancing Pet Owner Engagement at Retail - AI-Powered Insights"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "Hi [Name],\n\nNestlé Purina's connection to pets through retail experiences is compelling. We help create engaging in-store experiences:\n\n- Smart pet product demos that show real-time pet behavior\n- Customer engagement analytics (opt-in, privacy-first)\n- QR-code-to-app experiences for pet owners\n- Inventory visibility via smart cameras\n\nImagine pet parents trying samples with their dogs while getting personalized nutrition recommendations.\n\nWould you be interested in a brief demo of our edge AI platform for retail?\n\nBest,\n[Your Name]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "", "style": {"strikethrough": true}
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**To:** Connected Devices Product Team Lead",
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**Subject:** Scaling the Connected Pet Ecosystem - Edge AI Enhancement"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "[Name],\n\nWe've been following Nestlé Purina's innovative connected collar and bowl products - truly impressive work!\n\nWe specialize in scaling connected pet device ecosystems beyond 1M units:\n\n- Add advanced health monitoring (cortisol, activity patterns) without cloud dependency\n- Smart home integration (Alexa/Google Home) with offline fallback\n- Behavior anomaly detection (activity drops, appetite changes)\n- Pre-trained models that reduce development time by 80%\n- Privacy-first: data stays on device unless owner consents\n\nCurrently supporting pet health tech partners who want to expand on their collar/bowl foundation.\n\nWant to add AI capabilities to your next device generation?\n\nBest regards,\n[Your Name]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": ""
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

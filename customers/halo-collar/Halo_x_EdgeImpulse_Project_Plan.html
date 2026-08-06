@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Halo × Edge Impulse — Project Plan</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface-hover: #222632;
+    --border: #2a2e3a;
+    --text: #e4e4e7;
+    --text-muted: #8b8fa3;
+    --accent: #6366f1;
+    --accent-light: #818cf8;
+    --green: #22c55e;
+    --green-bg: rgba(34,197,94,0.12);
+    --yellow: #eab308;
+    --yellow-bg: rgba(234,179,8,0.12);
+    --red: #ef4444;
+    --red-bg: rgba(239,68,68,0.12);
+    --blue: #3b82f6;
+    --blue-bg: rgba(59,130,246,0.12);
+    --orange: #f97316;
+    --orange-bg: rgba(249,115,22,0.12);
+    --purple: #a855f7;
+    --purple-bg: rgba(168,85,247,0.12);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+
+  .container { max-width:1200px; margin:0 auto; padding:24px; }
+
+  /* Header */
+  .header { text-align:center; padding:48px 24px 32px; border-bottom:1px solid var(--border); margin-bottom:32px; }
+  .header-badge { display:inline-block; background:var(--accent); color:#fff; font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; padding:4px 12px; border-radius:4px; margin-bottom:16px; }
+  .header h1 { font-size:32px; font-weight:700; margin-bottom:8px; }
+  .header .subtitle { color:var(--text-muted); font-size:15px; }
+  .header .meta { display:flex; justify-content:center; gap:32px; margin-top:20px; flex-wrap:wrap; }
+  .header .meta-item { font-size:13px; color:var(--text-muted); }
+  .header .meta-item strong { color:var(--text); }
+
+  /* Nav tabs */
+  .nav { display:flex; gap:4px; margin-bottom:28px; border-bottom:1px solid var(--border); padding-bottom:0; overflow-x:auto; }
+  .nav-tab { padding:10px 18px; font-size:13px; font-weight:500; color:var(--text-muted); cursor:pointer; border:none; background:none; border-bottom:2px solid transparent; transition:all 0.15s; white-space:nowrap; }
+  .nav-tab:hover { color:var(--text); }
+  .nav-tab.active { color:var(--accent-light); border-bottom-color:var(--accent); }
+
+  /* Sections */
+  .section { display:none; }
+  .section.active { display:block; }
+
+  /* Cards */
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:24px; margin-bottom:16px; }
+  .card h3 { font-size:16px; font-weight:600; margin-bottom:12px; }
+  .card p { color:var(--text-muted); font-size:14px; }
+
+  /* Timeline / Gantt */
+  .gantt-container { overflow-x:auto; margin:16px 0; }
+  .gantt { width:100%; border-collapse:collapse; font-size:13px; }
+  .gantt th { text-align:left; padding:8px 12px; font-weight:500; color:var(--text-muted); border-bottom:1px solid var(--border); font-size:11px; text-transform:uppercase; letter-spacing:0.5px; }
+  .gantt td { padding:6px 12px; border-bottom:1px solid var(--border); vertical-align:middle; }
+  .gantt .week-cols td { padding:0; height:28px; position:relative; }
+  .gantt-bar { height:20px; border-radius:4px; position:absolute; top:4px; min-width:8px; }
+  .bar-analysis { background:var(--blue); opacity:0.8; }
+  .bar-data { background:var(--green); opacity:0.8; }
+  .bar-model { background:var(--purple); opacity:0.8; }
+  .bar-integration { background:var(--orange); opacity:0.8; }
+  .bar-field { background:var(--yellow); opacity:0.8; }
+  .bar-milestone { background:var(--red); opacity:0.9; }
+
+  .legend { display:flex; gap:16px; flex-wrap:wrap; margin:16px 0; }
+  .legend-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-muted); }
+  .legend-dot { width:12px; height:12px; border-radius:3px; }
+
+  /* Milestone table */
+  .milestone-table { width:100%; border-collapse:collapse; font-size:14px; }
+  .milestone-table th { text-align:left; padding:10px 14px; font-weight:500; color:var(--text-muted); border-bottom:1px solid var(--border); font-size:12px; text-transform:uppercase; letter-spacing:0.5px; }
+  .milestone-table td { padding:10px 14px; border-bottom:1px solid var(--border); }
+  .milestone-table tr:hover { background:var(--surface-hover); }
+
+  /* Badges */
+  .badge { display:inline-block; font-size:11px; font-weight:600; padding:2px 8px; border-radius:4px; }
+  .badge-green { background:var(--green-bg); color:var(--green); }
+  .badge-yellow { background:var(--yellow-bg); color:var(--yellow); }
+  .badge-red { background:var(--red-bg); color:var(--red); }
+  .badge-blue { background:var(--blue-bg); color:var(--blue); }
+  .badge-orange { background:var(--orange-bg); color:var(--orange); }
+  .badge-purple { background:var(--purple-bg); color:var(--purple); }
+
+  /* Workstream cards */
+  .ws-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:16px; }
+  .ws-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:20px; border-left:3px solid var(--accent); }
+  .ws-card h4 { font-size:14px; font-weight:600; margin-bottom:8px; }
+  .ws-card .ws-meta { font-size:12px; color:var(--text-muted); margin-bottom:12px; }
+  .ws-task { font-size:13px; color:var(--text-muted); padding:4px 0; padding-left:16px; position:relative; }
+  .ws-task::before { content:"→"; position:absolute; left:0; color:var(--accent); }
+
+  /* Risk table */
+  .risk-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .risk-table th { text-align:left; padding:10px 12px; font-weight:500; color:var(--text-muted); border-bottom:1px solid var(--border); font-size:11px; text-transform:uppercase; letter-spacing:0.5px; }
+  .risk-table td { padding:10px 12px; border-bottom:1px solid var(--border); }
+
+  /* Dependencies */
+  .dep-item { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:16px; margin-bottom:10px; }
+  .dep-item h4 { font-size:14px; margin-bottom:4px; }
+  .dep-item p { font-size:13px; color:var(--text-muted); }
+  .dep-when { font-size:11px; font-weight:600; color:var(--accent-light); }
+
+  /* Success criteria */
+  .criteria-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:12px; }
+  .criteria-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:16px; text-align:center; }
+  .criteria-card .metric-label { font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+  .criteria-card .metric-current { font-size:24px; font-weight:700; color:var(--red); }
+  .criteria-card .metric-arrow { font-size:16px; color:var(--text-muted); margin:4px 0; }
+  .criteria-card .metric-target { font-size:24px; font-weight:700; color:var(--green); }
+  .criteria-card .metric-note { font-size:11px; color:var(--text-muted); margin-top:4px; }
+
+  /* Collapsible */
+  .collapsible { cursor:pointer; user-select:none; }
+  .collapsible::after { content:" ▾"; font-size:12px; color:var(--text-muted); }
+  .collapsible.collapsed::after { content:" ▸"; }
+  .collapsible-content { overflow:hidden; transition: max-height 0.2s ease; }
+  .collapsible-content.collapsed { max-height:0 !important; }
+
+  /* Cadence */
+  .cadence-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px; }
+  .cadence-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:16px; }
+  .cadence-card h4 { font-size:14px; margin-bottom:4px; }
+  .cadence-card .freq { font-size:12px; color:var(--accent-light); font-weight:600; margin-bottom:8px; }
+  .cadence-card p { font-size:13px; color:var(--text-muted); }
+
+  /* Phase header */
+  .phase-header { display:flex; align-items:center; gap:12px; margin:28px 0 16px; }
+  .phase-header h2 { font-size:20px; font-weight:700; }
+  .phase-tag { font-size:11px; font-weight:600; padding:3px 10px; border-radius:4px; }
+
+  /* Tooling rec */
+  .tool-card { background:var(--surface); border:1px solid var(--accent); border-radius:10px; padding:20px; margin:16px 0; }
+  .tool-card h4 { color:var(--accent-light); margin-bottom:8px; }
+  .tool-card p { font-size:13px; color:var(--text-muted); }
+  .tool-card ul { margin:8px 0 0 16px; font-size:13px; color:var(--text-muted); }
+  .tool-card li { margin:4px 0; }
+
+  @media (max-width:768px) {
+    .container { padding:12px; }
+    .header h1 { font-size:24px; }
+    .ws-grid { grid-template-columns:1fr; }
+    .criteria-grid { grid-template-columns:1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="header-badge">Confidential — Project Plan</div>
+    <h1>Halo Collar × Edge Impulse</h1>
+    <div class="subtitle">Pet Activity Detection — 12-Month Engagement Plan</div>
+    <div class="meta">
+      <div class="meta-item"><strong>Kickoff:</strong>&nbsp; March 16, 2026</div>
+      <div class="meta-item"><strong>Duration:</strong>&nbsp; 36 weeks (12 months)</div>
+      <div class="meta-item"><strong>Investment:</strong>&nbsp; $133,000 + deployment license</div>
+      <div class="meta-item"><strong>Version:</strong>&nbsp; 1.0 — March 12, 2026</div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="nav">
+    <button class="nav-tab active" onclick="showSection('overview')">Overview</button>
+    <button class="nav-tab" onclick="showSection('timeline')">Timeline</button>
+    <button class="nav-tab" onclick="showSection('phase1')">Phase 1</button>
+    <button class="nav-tab" onclick="showSection('phase2')">Phase 2</button>
+    <button class="nav-tab" onclick="showSection('milestones')">Milestones</button>
+    <button class="nav-tab" onclick="showSection('risks')">Risks</button>
+    <button class="nav-tab" onclick="showSection('dependencies')">Dependencies</button>
+    <button class="nav-tab" onclick="showSection('cadence')">Cadence</button>
+    <button class="nav-tab" onclick="showSection('tooling')">Tooling</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div id="overview" class="section active">
+    <div class="card">
+      <h3>The Problem</h3>
+      <p>Halo's dog activity classification model achieves 97.6% accuracy in the lab but drops to ~60% in the real world — a 37-point gap. The pipeline (Python → C conversion, STM32 inference) is verified correct. This is a <strong style="color:var(--text)">train-test distribution mismatch</strong>, primarily driven by collar orientation variability, limited behavioral diversity in training data, and class taxonomy complexity across 8 activity categories.</p>
+    </div>
+
+    <h3 style="margin:24px 0 12px; font-size:16px;">Success Criteria</h3>
+    <div class="criteria-grid">
+      <div class="criteria-card">
+        <div class="metric-label">Real-World Accuracy</div>
+        <div class="metric-current">~60%</div>
+        <div class="metric-arrow">↓</div>
+        <div class="metric-target">90%+</div>
+        <div class="metric-note">80–85% by Phase 1 end</div>
+      </div>
+      <div class="criteria-card">
+        <div class="metric-label">Collar Orientation</div>
+        <div class="metric-current">Brittle</div>
+        <div class="metric-arrow">↓</div>
+        <div class="metric-target">Robust</div>
+        <div class="metric-note">Rotation-invariant features</div>
+      </div>
+      <div class="criteria-card">
+        <div class="metric-label">Cloud-to-Device Parity</div>
+        <div class="metric-current">Unvalidated</div>
+        <div class="metric-arrow">↓</div>
+        <div class="metric-target">Validated</div>
+        <div class="metric-note">Matching preprocessing</div>
+      </div>
+      <div class="criteria-card">
+        <div class="metric-label">Model Footprint</div>
+        <div class="metric-current">51KB / 1.1KB</div>
+        <div class="metric-arrow">↓</div>
+        <div class="metric-target">Within Budget</div>
+        <div class="metric-note">STM32 memory constraints</div>
+      </div>
+    </div>
+
+    <h3 style="margin:24px 0 12px; font-size:16px;">Engagement Structure</h3>
+    <div class="card">
+      <table style="width:100%; font-size:14px; border-collapse:collapse;">
+        <tr><td style="padding:6px 0; color:var(--text-muted); width:160px;">Phase 1 (Weeks 1–16)</td><td><strong>$66,500</strong> — Understand, restructure, build foundations</td></tr>
+        <tr><td style="padding:6px 0; color:var(--text-muted);">Phase 2 (Weeks 17–36)</td><td><strong>$66,500</strong> — Optimize, validate, deploy</td></tr>
+        <tr><td style="padding:6px 0; color:var(--text-muted);">Deployment License</td><td><strong>$8K–$30K</strong> — One-time, scaled to device volume</td></tr>
+      </table>
+    </div>
+
+    <h3 style="margin:24px 0 12px; font-size:16px;">Team</h3>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div class="card">
+        <h3 style="color:var(--accent-light);">Edge Impulse</h3>
+        <div style="font-size:13px; color:var(--text-muted);">
+          <div style="padding:4px 0;"><strong style="color:var(--text);">Patrick Ruster</strong> — Head of CS, Account Lead</div>
+          <div style="padding:4px 0;"><strong style="color:var(--text);">Teague Gudemann</strong> — Account Executive</div>
+          <div style="padding:4px 0;"><strong style="color:var(--text);">Yvonne</strong> — Solutions Engineer</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--accent-light);">Halo Collar</h3>
+        <div style="font-size:13px; color:var(--text-muted);">
+          <div style="padding:4px 0;"><strong style="color:var(--text);">Ken</strong> — CEO</div>
+          <div style="padding:4px 0;"><strong style="color:var(--text);">Michael Ehrman</strong> — CTO</div>
+          <div style="padding:4px 0;"><strong style="color:var(--text);">Heather Berhalt</strong> — TBD</div>
+          <div style="padding:4px 0; color:var(--yellow);">⚠ Named ML/embedded lead needed by Week 1</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div id="timeline" class="section">
+    <div class="card">
+      <h3>36-Week Visual Timeline</h3>
+      <p style="margin-bottom:16px;">Notional — subject to refinement after Phase 1 discovery. Workstreams run in parallel and feed into each other iteratively.</p>
+
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--blue);"></div>Analysis & Review</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--green);"></div>Data Strategy</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--purple);"></div>Modeling & Evaluation</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--orange);"></div>On-Device Integration</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--yellow);"></div>Field Testing</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--red);"></div>Milestone</div>
+      </div>
+
+      <div class="gantt-container">
+        <table class="gantt">
+          <thead>
+            <tr>
+              <th style="width:180px;">Workstream</th>
+              <th colspan="36" style="text-align:center; font-size:10px;">
+                <div style="display:flex; justify-content:space-between; padding:0 4px;">
+                  <span>W1</span><span>W4</span><span>W8</span><span>W12</span><span>W16</span><span>W20</span><span>W24</span><span>W28</span><span>W32</span><span>W36</span>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-size:13px;">Initial Analysis & Setup</td>
+              <td colspan="36" class="week-cols">
+                <div class="gantt-bar bar-analysis" style="left:0%; width:11%;"></div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">Pipeline & Orientation Audit</td>
+              <td colspan="36" class="week-cols">
+                <div class="gantt-bar bar-analysis" style="left:2.8%; width:14%;"></div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">Data Strategy & Collection</td>
+              <td colspan="36" class="week-cols">
+                <div class="gantt-bar bar-data" style="left:5.5%; width:50%;"></div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">Class Simplification</td>
+              <td colspan="36" class="week-cols">
+                <div class="gantt-bar bar-data" style="left:8.3%; width:14%;"></div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">Model Dev & Iteration</td>
+              <td colspan="36" class="week-cols">
+                <div class="gantt-bar bar-model" style="left:11%; width:58%;"></div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">Evaluation Framework</td>
+              <td colspan="36" class="week-cols">
+                <div class="gantt-bar bar-model" style="left:13.8%; width:8%;"></div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">Application Logic</td>
+              <td colspan="36" class="week-cols">
+                <div class="gantt-bar bar-orange" style="left:22%; width:22%; background:var(--orange); opacity:0.8;"></div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">On-Device Integration</td>
+              <td colspan="36" class="week-cols">
+                <div class="gantt-bar bar-integration" style="left:47%; width:28%;"></div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">Field Testing</td>
+              <td colspan="36" class="week-cols">
+                <div class="gantt-bar bar-field" style="left:55%; width:33%;"></div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">Knowledge Transfer</td>
+              <td colspan="36" class="week-cols">
+                <div class="gantt-bar" style="left:75%; width:22%; background:var(--text-muted); opacity:0.5;"></div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-size:13px; color:var(--red); font-weight:600;">Milestones</td>
+              <td colspan="36" class="week-cols">
+                <div class="gantt-bar bar-milestone" style="left:0%; width:1.5%; border-radius:2px;" title="Kickoff"></div>
+                <div class="gantt-bar bar-milestone" style="left:11%; width:1.5%; border-radius:2px;" title="Phase 1 Checkpoint"></div>
+                <div class="gantt-bar bar-milestone" style="left:33%; width:1.5%; border-radius:2px;" title="Phase 1 → Phase 2"></div>
+                <div class="gantt-bar bar-milestone" style="left:44%; width:1.5%; border-radius:2px;" title="Phase 1 Complete"></div>
+                <div class="gantt-bar bar-milestone" style="left:72%; width:1.5%; border-radius:2px;" title="QBR #2"></div>
+                <div class="gantt-bar bar-milestone" style="left:97%; width:2%; border-radius:2px;" title="Phase 2 Complete"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted); margin-top:8px; padding:0 180px 0 0;">
+        <span></span>
+        <div style="display:flex; gap:24px;">
+          <span style="color:var(--red);">● Kickoff (W1)</span>
+          <span style="color:var(--red);">● Early Indicators (W4)</span>
+          <span style="color:var(--red);">● Phase 1 Review (W12)</span>
+          <span style="color:var(--red);">● Phase 2 Start (W16)</span>
+          <span style="color:var(--red);">● QBR #2 (W26)</span>
+          <span style="color:var(--red);">● Engagement End (W36)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div id="phase1" class="section">
+    <div class="phase-header">
+      <h2>Phase 1: Understand, Then Restructure</h2>
+      <span class="phase-tag" style="background:var(--blue-bg); color:var(--blue);">Weeks 1–16 · $66,500</span>
+    </div>
+    <p style="color:var(--text-muted); font-size:14px; margin-bottom:20px;">These workstreams are not sequential — findings from each feed back into the others through multiple experiment-evaluate-refine cycles. The approach is: <strong style="color:var(--text);">Analyze → Experiment → Evaluate → Refine → Repeat</strong>.</p>
+
+    <div class="ws-grid">
+      <div class="ws-card" style="border-left-color:var(--blue);">
+        <h4>WS1: Pipeline & Inference Review</h4>
+        <div class="ws-meta"><span class="badge badge-blue">Weeks 1–3</span> · Est. 1–2 weeks effort</div>
+        <div class="ws-task">Map end-to-end windowing & inference flow</div>
+        <div class="ws-task">Validate firmware vs. offline pipeline consistency</div>
+        <div class="ws-task">Continuous-buffer test to isolate firmware vs. model gap</div>
+        <div class="ws-task">Document limits and handoff points</div>
+      </div>
+
+      <div class="ws-card" style="border-left-color:var(--blue);">
+        <h4>WS2: Orientation Assumption Validation</h4>
+        <div class="ws-meta"><span class="badge badge-blue">Weeks 1–5</span> · Est. 2–3 weeks effort</div>
+        <div class="ws-task">Quantify collar orientation impact across all 50 features</div>
+        <div class="ws-task">Field study with controlled rotation scenarios</div>
+        <div class="ws-task">Sensitivity analysis: which features break first</div>
+        <div class="ws-task">Explore rotation-invariant feature alternatives</div>
+      </div>
+
+      <div class="ws-card" style="border-left-color:var(--green);">
+        <h4>WS3: Class Simplification & Data Strategy</h4>
+        <div class="ws-meta"><span class="badge badge-green">Weeks 3–8</span> · Est. 3–6 weeks effort</div>
+        <div class="ws-task">Simplify taxonomy: 8 classes → core set (rest, walk, run, eat)</div>
+        <div class="ws-task">Evaluate minority classes (on_shelf: 847 samples, human_carry: 1,789)</div>
+        <div class="ws-task">Define real-world data collection protocol</div>
+        <div class="ws-task">Update labeling guidelines and quality process</div>
+        <div class="ws-task">Begin collection campaigns for breed/size diversity</div>
+      </div>
+
+      <div class="ws-card" style="border-left-color:var(--purple);">
+        <h4>WS4: Evaluation Framework Redesign</h4>
+        <div class="ws-meta"><span class="badge badge-purple">Weeks 5–8</span> · Est. 2–3 weeks effort</div>
+        <div class="ws-task">Define real-world KPIs (not just lab accuracy)</div>
+        <div class="ws-task">Build evaluation harness with confusion matrix tracking</div>
+        <div class="ws-task">Per-class precision/recall targets</div>
+        <div class="ws-task">Establish baseline on real-world test set</div>
+      </div>
+
+      <div class="ws-card" style="border-left-color:var(--orange);">
+        <h4>WS5: Application-Level Logic</h4>
+        <div class="ws-meta"><span class="badge badge-orange">Weeks 8–16</span> · Est. 2–4 weeks effort</div>
+        <div class="ws-task">Temporal smoothing design (multi-window gating)</div>
+        <div class="ws-task">Confidence thresholding for uncertain predictions</div>
+        <div class="ws-task">State machine for activity transitions</div>
+        <div class="ws-task">Reduce "random classification explosions" (head shaking etc.)</div>
+      </div>
+
+      <div class="ws-card" style="border-left-color:var(--purple);">
+        <h4>WS6: Model & Feature Exploration</h4>
+        <div class="ws-meta"><span class="badge badge-purple">Weeks 5–16</span> · Est. 4–8 weeks effort</div>
+        <div class="ws-task">Spatial rotation augmentation strategies</div>
+        <div class="ws-task">Architecture benchmarking: 1D CNN, TCN, Transformer</div>
+        <div class="ws-task">EON Tuner for hardware-aware architecture search</div>
+        <div class="ws-task">Augmentation strategy review (current two-level approach)</div>
+        <div class="ws-task">Per-class accuracy refinement for weak classes</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px; border-left:3px solid var(--yellow);">
+      <h3>Phase 1 Exit Criteria</h3>
+      <p>Real-world accuracy at 80–85%, with clear identified path to 90%+. Orientation robustness measurably improved. Cloud-to-device parity validated. Simplified class taxonomy proven. Evaluation framework in place with real-world test harness.</p>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div id="phase2" class="section">
+    <div class="phase-header">
+      <h2>Phase 2: Optimize, Validate & Deploy</h2>
+      <span class="phase-tag" style="background:var(--green-bg); color:var(--green);">Weeks 17–36 · $66,500</span>
+    </div>
+    <p style="color:var(--text-muted); font-size:14px; margin-bottom:20px;">Optimization is iterative: each accuracy gain informs the next round of data collection, model tuning, and field validation.</p>
+
+    <div class="ws-grid">
+      <div class="ws-card" style="border-left-color:var(--green);">
+        <h4>Expanded Data Strategy</h4>
+        <div class="ws-meta"><span class="badge badge-green">Weeks 17–28</span></div>
+        <div class="ws-task">Targeted data collection for identified failure modes</div>
+        <div class="ws-task">Breed & size diversity campaigns (small &lt;5kg, large &gt;40kg)</div>
+        <div class="ws-task">Refined augmentation based on Phase 1 results</div>
+        <div class="ws-task">Iterative label quality improvement</div>
+      </div>
+
+      <div class="ws-card" style="border-left-color:var(--purple);">
+        <h4>Model Optimization</h4>
+        <div class="ws-meta"><span class="badge badge-purple">Weeks 17–30</span></div>
+        <div class="ws-task">Fine-tune best architecture from Phase 1</div>
+        <div class="ws-task">Hyperparameter & training optimization</div>
+        <div class="ws-task">Advanced techniques: ensemble, TCN, multi-task learning</div>
+        <div class="ws-task">Temporal smoothing & confidence gating tuning</div>
+        <div class="ws-task">Per-class accuracy refinement for weak classes</div>
+      </div>
+
+      <div class="ws-card" style="border-left-color:var(--orange);">
+        <h4>On-Device Integration</h4>
+        <div class="ws-meta"><span class="badge badge-orange">Weeks 20–32</span></div>
+        <div class="ws-task">Deploy optimized pipeline to STM32 collar</div>
+        <div class="ws-task">Cloud-to-device parity validation</div>
+        <div class="ws-task">Firmware adjustments as needed</div>
+        <div class="ws-task">Integration documentation</div>
+      </div>
+
+      <div class="ws-card" style="border-left-color:var(--yellow);">
+        <h4>Field Testing & Validation</h4>
+        <div class="ws-meta"><span class="badge badge-yellow">Weeks 22–36</span></div>
+        <div class="ws-task">Structured real-world testing with labeled ground truth</div>
+        <div class="ws-task">Performance benchmarking across breed categories</div>
+        <div class="ws-task">Edge-case and failure mode identification</div>
+        <div class="ws-task">Results feed back into model optimization cycle</div>
+      </div>
+
+      <div class="ws-card" style="border-left-color:var(--text-muted);">
+        <h4>Knowledge Transfer</h4>
+        <div class="ws-meta"><span class="badge" style="background:rgba(139,143,163,0.15); color:var(--text-muted);">Weeks 28–36</span></div>
+        <div class="ws-task">Halo team owns the solution long-term</div>
+        <div class="ws-task">Full documentation of decisions, not just outputs</div>
+        <div class="ws-task">Training sessions on Edge Impulse platform</div>
+        <div class="ws-task">Ongoing performance monitoring handoff</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px; border-left:3px solid var(--green);">
+      <h3>Phase 2 Exit Criteria</h3>
+      <p>Real-world accuracy at 90%+. Production-ready model deployed on STM32 collar. Cloud-to-device parity fully validated. Halo team self-sufficient on Edge Impulse platform. Deployment license terms finalized.</p>
+    </div>
+  </div>
+
+  <!-- MILESTONES -->
+  <div id="milestones" class="section">
+    <div class="card">
+      <h3>Key Milestones</h3>
+      <table class="milestone-table">
+        <thead>
+          <tr>
+            <th>Week</th>
+            <th>Date (approx)</th>
+            <th>Milestone</th>
+            <th>Deliverable / Gate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-red">W1</span></td>
+            <td>Mar 16, 2026</td>
+            <td><strong>Kickoff</strong></td>
+            <td>Technical leads introduced, data ingestion begins, platform access granted</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-blue">W2</span></td>
+            <td>Mar 23</td>
+            <td><strong>Data Handoff Complete</strong></td>
+            <td>Full training data, QA results, field recordings ingested into EI platform</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-blue">W4</span></td>
+            <td>Apr 6</td>
+            <td><strong>Early Indicators</strong></td>
+            <td>Pipeline audit complete, orientation impact quantified, initial findings report</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-green">W8</span></td>
+            <td>May 4</td>
+            <td><strong>Data Strategy Locked</strong></td>
+            <td>Simplified taxonomy validated, collection protocols active, evaluation harness built</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-purple">W12</span></td>
+            <td>Jun 1</td>
+            <td><strong>Phase 1 Checkpoint / QBR #1</strong></td>
+            <td>Model accuracy trending, architecture selected, progress report to leadership</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-red">W16</span></td>
+            <td>Jun 29</td>
+            <td><strong>Phase 1 → Phase 2 Gate</strong></td>
+            <td>80–85% real-world accuracy, Phase 2 payment ($66,500), refined Phase 2 plan</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-orange">W22</span></td>
+            <td>Aug 10</td>
+            <td><strong>First On-Device Deployment</strong></td>
+            <td>Optimized model running on STM32 collar, parity validation begins</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-purple">W26</span></td>
+            <td>Sep 7</td>
+            <td><strong>QBR #2</strong></td>
+            <td>Executive review: progress, ROI analysis, strategic direction, deployment license discussion</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-yellow">W30</span></td>
+            <td>Oct 5</td>
+            <td><strong>Field Testing Complete</strong></td>
+            <td>Structured real-world results across breed categories, failure modes documented</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-green">W34</span></td>
+            <td>Nov 2</td>
+            <td><strong>Knowledge Transfer Complete</strong></td>
+            <td>Halo team self-sufficient, documentation finalized</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-red">W36</span></td>
+            <td>Nov 16</td>
+            <td><strong>Engagement Close</strong></td>
+            <td>90%+ accuracy validated, production deployment, renewal/next-phase discussion</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- RISKS -->
+  <div id="risks" class="section">
+    <div class="card">
+      <h3>Risk Register</h3>
+      <table class="risk-table">
+        <thead>
+          <tr>
+            <th>Risk</th>
+            <th>Impact</th>
+            <th>Likelihood</th>
+            <th>Mitigation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Data collection delays</strong><br><span style="font-size:12px; color:var(--text-muted);">Diverse real-world data is the critical path</span></td>
+            <td><span class="badge badge-red">High</span></td>
+            <td><span class="badge badge-yellow">Medium</span></td>
+            <td>Halo data lead assigned by W2. Regular check-ins. Collection protocols defined early (W3–4). Escalation path to Ken if blocked.</td>
+          </tr>
+          <tr>
+            <td><strong>Data quality / labeling issues</strong><br><span style="font-size:12px; color:var(--text-muted);">Current labels may have systematic errors</span></td>
+            <td><span class="badge badge-red">High</span></td>
+            <td><span class="badge badge-yellow">Medium</span></td>
+            <td>Data audit in W1–3 using EI analysis tools. Labeling guidelines updated. Quality review built into evaluation harness.</td>
+          </tr>
+          <tr>
+            <td><strong>Orientation not fully solvable in software</strong><br><span style="font-size:12px; color:var(--text-muted);">Gravity-based features may need hardware changes</span></td>
+            <td><span class="badge badge-red">High</span></td>
+            <td><span class="badge badge-yellow">Medium</span></td>
+            <td>Quantify impact early (W2–3). Explore rotation-invariant features. If software insufficient, escalate hardware recommendations by W8.</td>
+          </tr>
+          <tr>
+            <td><strong>STM32 device constraints</strong><br><span style="font-size:12px; color:var(--text-muted);">New architectures may not fit memory/power budget</span></td>
+            <td><span class="badge badge-yellow">Medium</span></td>
+            <td><span class="badge badge-yellow">Medium</span></td>
+            <td>Hardware-aware pipeline from day one. EON Tuner constrains architecture search to device limits. Current footprint (51KB/1.1KB) is baseline.</td>
+          </tr>
+          <tr>
+            <td><strong>Stakeholder alignment / scope creep</strong><br><span style="font-size:12px; color:var(--text-muted);">Ken has history of direct outreach to EI team</span></td>
+            <td><span class="badge badge-yellow">Medium</span></td>
+            <td><span class="badge badge-yellow">Medium</span></td>
+            <td>All commitments go through Patrick/Teague. Bi-weekly stakeholder reviews keep leadership aligned. Albert removed from account.</td>
+          </tr>
+          <tr>
+            <td><strong>Phase 1 targets not met</strong><br><span style="font-size:12px; color:var(--text-muted);">80–85% may not be achievable in 16 weeks</span></td>
+            <td><span class="badge badge-yellow">Medium</span></td>
+            <td><span class="badge badge-blue">Low</span></td>
+            <td>Targets are aspirational, not contractual guarantees. W12 QBR provides early checkpoint. Phase 2 plan adjusted based on actuals.</td>
+          </tr>
+          <tr>
+            <td><strong>Environmental factors</strong><br><span style="font-size:12px; color:var(--text-muted);">Temperature, terrain, weather affecting sensors</span></td>
+            <td><span class="badge badge-blue">Low</span></td>
+            <td><span class="badge badge-blue">Low</span></td>
+            <td>Estimated 2–4% impact. Addressed through diverse data collection across conditions in Phase 2.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3>Estimated Accuracy Loss Breakdown</h3>
+      <p style="margin-bottom:12px;">From the technical response document — factors contributing to the ~37-point gap:</p>
+      <table class="risk-table">
+        <thead><tr><th>Factor</th><th>Est. Impact</th><th>Confidence</th><th>Addressed In</th></tr></thead>
+        <tbody>
+          <tr><td>Collar orientation variability</td><td>15–20%</td><td><span class="badge badge-red">High</span></td><td>WS2, WS6</td></tr>
+          <tr><td>Edge case behaviors not in training</td><td>8–12%</td><td><span class="badge badge-red">High</span></td><td>WS3, Data Strategy</td></tr>
+          <tr><td>Behavioral diversity (natural vs controlled)</td><td>5–8%</td><td><span class="badge badge-yellow">Medium</span></td><td>WS3, Phase 2 collection</td></tr>
+          <tr><td>Collar fit variability</td><td>3–5%</td><td><span class="badge badge-yellow">Medium</span></td><td>WS2, Field Testing</td></tr>
+          <tr><td>Environmental factors</td><td>2–4%</td><td><span class="badge badge-blue">Low</span></td><td>Phase 2 collection</td></tr>
+          <tr><td>Class imbalance effects</td><td>2–3%</td><td><span class="badge badge-blue">Low</span></td><td>WS3</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- DEPENDENCIES -->
+  <div id="dependencies" class="section">
+    <h3 style="margin-bottom:16px; font-size:18px;">What Edge Impulse Needs from Halo</h3>
+
+    <div class="dep-item">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h4>Named ML/Embedded Lead</h4>
+        <span class="dep-when">Week 1</span>
+      </div>
+      <p>Single point of contact with decision authority on ML and embedded engineering. This person joins weekly syncs and can unblock technical decisions without escalating to CTO.</p>
+    </div>
+
+    <div class="dep-item">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h4>Full Data Access</h4>
+        <span class="dep-when">Week 1</span>
+      </div>
+      <p>Complete training dataset (92,800 samples), QA test results, field recordings, and any additional unlabeled data. Ingested into Edge Impulse platform.</p>
+    </div>
+
+    <div class="dep-item">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h4>Hardware Prototype(s)</h4>
+        <span class="dep-when">Week 1</span>
+      </div>
+      <p>Device prototype(s) with firmware for on-device testing. Needed for cloud-to-device parity validation and integration work.</p>
+    </div>
+
+    <div class="dep-item">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h4>Data Collection Campaigns</h4>
+        <span class="dep-when">Ongoing, at scale by Phase 2</span>
+      </div>
+      <p>Execute collection campaigns per agreed protocols. Real-world data across breeds, sizes, environments, collar positions. This is the critical dependency — data drives accuracy gains.</p>
+    </div>
+
+    <div class="dep-item">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h4>QA / Field Testing Support</h4>
+        <span class="dep-when">Throughout</span>
+      </div>
+      <p>Structured field tests with labeled ground truth. Halo QA team runs real-world validation protocols as models improve.</p>
+    </div>
+
+    <h3 style="margin:28px 0 16px; font-size:18px;">Internal (Edge Impulse) Pre-Kickoff Checklist</h3>
+    <div class="dep-item" style="border-left:3px solid var(--yellow);">
+      <h4 style="color:var(--yellow);">Open Items — Due Before March 16</h4>
+      <p>
+        ☐ Teague sends planning email and introduces Patrick to customer<br>
+        ☐ Patrick reviews accelerometer data in Edge Impulse Studio<br>
+        ☐ Confirm Albert removed from customer studio account access<br>
+        ☐ Establish shared progress tracking framework (see Tooling tab)<br>
+      </p>
+    </div>
+  </div>
+
+  <!-- CADENCE -->
+  <div id="cadence" class="section">
+    <h3 style="margin-bottom:16px; font-size:18px;">Collaboration Cadence</h3>
+    <div class="cadence-grid">
+      <div class="cadence-card">
+        <h4>Engineering Sync</h4>
+        <div class="freq">Weekly</div>
+        <p>Hands-on technical collaboration. Experiment review, blocker resolution, data quality check-ins. Attendees: Patrick, Yvonne, Halo ML/embedded lead.</p>
+      </div>
+      <div class="cadence-card">
+        <h4>Stakeholder Review</h4>
+        <div class="freq">Bi-weekly</div>
+        <p>Progress report to Halo leadership. High-level metrics, timeline updates, decision points. Attendees: Patrick, Teague, Ken, Michael.</p>
+      </div>
+      <div class="cadence-card">
+        <h4>Quarterly Business Review</h4>
+        <div class="freq">Quarterly (W12, W26)</div>
+        <p>Executive-level review of progress, ROI analysis, strategic direction, and next-quarter planning.</p>
+      </div>
+      <div class="cadence-card">
+        <h4>Ad-hoc Technical Sessions</h4>
+        <div class="freq">As needed</div>
+        <p>Deep-dives on specific workstreams. Data collection reviews, architecture decisions, integration debugging. Scheduled as blockers arise.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3>Communication Escalation Path</h3>
+      <p style="font-size:14px;">
+        <strong>Level 1 (Technical):</strong> Yvonne ↔ Halo ML/Embedded Lead — weekly sync, Slack/email<br>
+        <strong>Level 2 (Account):</strong> Patrick ↔ Michael (CTO) — bi-weekly review, or as needed<br>
+        <strong>Level 3 (Executive):</strong> Teague/Patrick ↔ Ken (CEO) — QBRs, or escalation if L2 blocked &gt;1 week
+      </p>
+    </div>
+  </div>
+
+  <!-- TOOLING -->
+  <div id="tooling" class="section">
+    <h3 style="margin-bottom:16px; font-size:18px;">Recommended Collaboration Tooling</h3>
+
+    <div class="tool-card">
+      <h4>🏆 Recommendation: GitHub Repository</h4>
+      <p style="margin-bottom:8px;">Both teams are engineering-heavy and almost certainly already use GitHub. A shared repo gives you version-controlled project documentation, issue tracking, and universal access — no extra licenses needed.</p>
+      <ul>
+        <li><strong>Project plan & docs</strong> — Markdown files in the repo, versioned and diffable</li>
+        <li><strong>Task tracking</strong> — GitHub Issues with labels per workstream (WS1–WS6), milestone tags per phase</li>
+        <li><strong>Progress visibility</strong> — GitHub Projects (free kanban board) for visual status</li>
+        <li><strong>Decision log</strong> — Use a DECISIONS.md file or GitHub Discussions</li>
+        <li><strong>Meeting notes</strong> — Markdown in a /meetings directory, linked from issues</li>
+        <li><strong>Data & model versioning</strong> — Can link to Edge Impulse Studio runs from issues</li>
+      </ul>
+      <p style="margin-top:12px;"><strong>Why this wins:</strong> Everyone already has a GitHub account. No Notion access issues. External stakeholders (Halo) get invited to a single repo. Markdown is portable — if you ever need to move platforms, the content travels with you.</p>
+    </div>
+
+    <div class="card">
+      <h3>Alternative Options Considered</h3>
+      <table class="risk-table">
+        <thead><tr><th>Tool</th><th>Pros</th><th>Cons</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Notion</strong></td>
+            <td>Rich docs, databases, views</td>
+            <td>Not all stakeholders have access (your stated blocker)</td>
+          </tr>
+          <tr>
+            <td><strong>Google Docs/Sheets</strong></td>
+            <td>Universal access, real-time collab</td>
+            <td>No task tracking, version history is messy, not engineering-native</td>
+          </tr>
+          <tr>
+            <td><strong>Linear</strong></td>
+            <td>Clean issue tracking, good for eng teams</td>
+            <td>Another tool to onboard Halo onto, paid</td>
+          </tr>
+          <tr>
+            <td><strong>Plane.so</strong></td>
+            <td>Open-source Linear alternative, self-hostable</td>
+            <td>Requires setup, unfamiliar to most teams</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Suggested Repo Structure</h3>
+      <pre style="background:var(--bg); padding:16px; border-radius:6px; font-size:13px; color:var(--text-muted); overflow-x:auto; border:1px solid var(--border);">
+halo-edge-impulse/
+├── README.md                    # This project plan (markdown version)
+├── DECISIONS.md                 # Decision log with rationale
+├── docs/
+│   ├── phase-1-plan.md
+│   ├── phase-2-plan.md
+│   ├── data-collection-protocol.md
+│   └── evaluation-framework.md
+├── meetings/
+│   ├── 2026-03-16-kickoff.md
+│   └── ...
+├── reports/
+│   ├── weekly/
+│   └── qbr/
+└── .github/
+    └── ISSUE_TEMPLATE/
+        ├── experiment.md
+        ├── blocker.md
+        └── decision-needed.md</pre>
+    </div>
+  </div>
+</div>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

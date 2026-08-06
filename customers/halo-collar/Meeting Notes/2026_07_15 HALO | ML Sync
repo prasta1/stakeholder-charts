@@ -1,0 +1,54 @@
+# HALO | ML Sync
+
+Wed, 15 Jul 26
+
+### Release 2 Status and Model Integration
+
+- Ashvin pushed Release 2 to GitHub; branch builds and runs on HALO Color 5
+- Both activity and GPS models now running simultaneously via Edge Impulse SDK
+  - First time dual-model deployment achieved; significant flash savings vs. separate deployments
+  - Future model updates (e.g. Dinko retraining GPS) can slot straight into the same multi-impulse block
+- Activity classification results from bench testing:
+  - On shelf, hand carry idle, and motion classes all behaving as expected
+  - GPS model detecting outdoor covered correctly; indoor blocked triggered when device covered with shirt
+  - GPS out-of-distribution for Ashvin’s environment (Texas windows vs. German triple-glazed): likely needs more local training data
+
+### Memory and Performance Validation
+
+- Michael flagged need to verify Ashvin’s branch meets product requirements on memory, flash, and current draw
+- Igor assigned to compare map file between Ashvin’s branch and the prior dual-model branch (pre-Edge Impulse)
+  - Baseline: “AI models integration without Edge Impulse” branch (Mikhail/Igor’s prior work)
+  - Ashvin’s branch is on top of that; direct before/after comparison
+  - Mikhail has a tighter deadline priority; Igor to handle this analysis
+- Ashvin’s branch linked in the external HALO Slack, AI Edge Impulse channel
+
+### Mobile App: Real-Time Classifier Display
+
+- New iOS app version (not yet on TestFlight) shows live classifier output as a dot in the corner of the current label box
+  - Postures (standing, sitting, laying, walking, running) grouped at top; behavior activities at bottom
+  - Dot updates in real time but does not affect logged data or labeling process
+- Mikhail confirmed firmware side is complete; activity and GPS reporting implemented
+- Ashvin on TestFlight (v2.9.0) but needs invite to newer build; Michael to push updated version to TestFlight
+- Dinko to send Ashvin an APK link for Android sideload
+
+### Hand Carry Class: Purpose and Data Collection
+
+- Ken clarified the sole purpose of hand carry detection: prevent GPS drift during human handling
+  - When collar is hand-carried, system should treat dog as idle and freeze GPS position
+  - Misclassifying hand carry as “dog moving” is acceptable; misclassifying it as “dog idle” is the failure case
+- On shelf class purpose: trigger a battery-saving timeout after ~5 minutes of confirmed shelf detection
+  - Very high accuracy due to distinct stillness and orientation; false positives considered near-zero
+- Dinko’s model analysis: no overlap between hand carry and moving classes; 0.2 overlap between hand carry idle and on shelf (negligible)
+- Dinko collecting additional hand carry data; will retrain and notify team when ready
+  - Adrian’s labeling pipeline on hold for now; Dinko prefers to validate current model’s real-world generalization first before expanding data collection
+
+### Next Steps
+
+- **Analyze map file for Ashvin's branch vs. prior baseline** (Igor)
+  - Compare flash, RAM, and memory utilization; share results in the AI Edge Impulse Slack channel.
+- **Push updated app build to TestFlight and send Ashvin an invite** (Michael)
+  - Current TestFlight build is 87 days old; newer version needed for real-time classifier dot feature.
+- **Send Dinko the APK link for Android install** (Michael)
+  - Dinko is on GrapheneOS and cannot use TestFlight.
+- **Retrain activity model with new hand carry data and notify team** (Dinko)
+  - Currently collecting; will inform when model is ready for testing.

@@ -1,0 +1,30 @@
+{
+  "children": [
+    {
+      "object": "block",
+      "type": "heading_1",
+      "heading_1": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "🎯 Outreach Priority List & Contact Strategy"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "Rank divisions and contacts by strategic priority, opportunity size, and ease of initial outreach."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

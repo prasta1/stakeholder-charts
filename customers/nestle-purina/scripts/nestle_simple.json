@@ -1,0 +1,69 @@
+{
+  "children": [
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**P0 - Current (Live):** Core collar/bowl - activity, health monitoring"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**P1 - Q3 2026:** Behavior anomaly detection, pattern recognition, senior gerontology, weather alerts"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**P1 - Q3 2026:** Behavioral pattern recognition - detect exercise adequacy, circadian rhythm issues"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**P2 - Q4 2026+:** Treatment compliance, insurance telemetrics, clinic triage"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

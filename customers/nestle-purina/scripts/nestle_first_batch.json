@@ -1,0 +1,43 @@
+{
+  "children": [
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "Executive Summary - Edge AI applications for pet nutrition and care products across manufacturing, retail, consumer devices, and veterinary care."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "🏭 Manufacturing & Quality Control"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "• Computer vision for defect detection (packaging, ingredients)"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

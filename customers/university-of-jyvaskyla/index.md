@@ -1,4 +1,16 @@
----contacts:
+---
+name: University of Jyväskylä
+industry: ''
+tsh: Harry Mostyn
+customer_since: ''
+renewal: 2027-01-01
+arr: $14,500
+health: yellow
+risk_factors: []
+expansion_signals: []
+last_touch: 2026-02-04
+next_touch_due: ''
+contacts:
 - name: mannisle
   role: Student
   influence: low
@@ -29,16 +41,6 @@
   influence: low
   relationship_to_us: neutral
   notes: 'Title: ML researcher; Last activity: ; Sales activities: 0'
-- name: ''
-  role: Student
-  influence: low
-  relationship_to_us: ally
-  notes: 'Title: Student; Last activity: ; Sales activities: 0'
-- name: ''
-  role: Student
-  influence: low
-  relationship_to_us: ally
-  notes: 'Title: Student; Last activity: ; Sales activities: 0'
 - name: Pleiviska Leiviska
   role: Student
   influence: low
@@ -78,8 +80,7 @@
   role: Project Manager
   influence: medium
   relationship_to_us: neutral
-  notes: 'Title: Project Manager; Last activity: 2025-10-29 09:26; Sales activities:
-    151'
+  notes: 'Title: Project Manager; Last activity: 2025-10-29 09:26; Sales activities:'
 - name: Aleksi Ojapelto
   role: Other
   influence: low
@@ -100,17 +101,11 @@
   influence: low
   relationship_to_us: neutral
   notes: 'Title: Uni; Last activity: ; Sales activities: 0'
-- name: ''
-  role: ''
-  influence: low
-  relationship_to_us: neutral
-  notes: 'Title: ; Last activity: 2025-10-29 09:26; Sales activities: 8'
 - name: Timo Hongell
   role: Project Researcher
   influence: low
   relationship_to_us: neutral
-  notes: 'Title: Project Researcher; Last activity: 2025-10-29 09:26; Sales activities:
-    10'
+  notes: 'Title: Project Researcher; Last activity: 2025-10-29 09:26; Sales activities:'
 - name: Osto Laskut
   role: Univ
   influence: low
@@ -125,13 +120,11 @@
   role: Assistant Professor CyberSecurity
   influence: low
   relationship_to_us: neutral
-  notes: 'Title: Assistant Professor CyberSecurity; Last activity: 2023-12-11 10:48;
-    Sales activities: 1'
-- name: Andrei Costin
-  role: Senior Lecturer/Assistant Professor
-  influence: medium
-  relationship_to_us: neutral
-  notes: 'Title: Senior Lecturer/Assistant Professor; Last activity: ; Sales activities:
-    0'
+  notes: 'Title: Assistant Professor CyberSecurity; Last activity: 2023-12-11 10:48;'
+notes_links: []
 ---
+
 ## Notes
+
+<!-- Add meeting notes, QBR prep, risk threads, executive sponsor mapping -->
+<!-- Link related notes with wikilinks: [[YYYY-MM-DD QBR prep]] -->

@@ -1,22 +1,31 @@
----contacts:
+---
+name: Polar Electro Oy
+industry: wearables / sports tech
+tsh: Teague
+customer_since: 2023-01
+renewal: 2026-09-30
+arr: ~500k
+health: green
+risk_factors: []
+expansion_signals: []
+last_touch: 2026-07-02
+next_touch_due: 2026-07-20
+contacts:
 - name: Topi Korhonen
   role: Product Owner and Principal Researcher
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: Product Owner and Principal Researcher; Last activity: 2026-07-16
-    05:00; Sales activities: 107'
+  notes: 'Title: Product Owner and Principal Researcher; Last activity: 2026-07-16'
 - name: Arto Anttila
   role: SW Architect
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: SW Architect; Last activity: 2026-07-16 05:00; Sales activities:
-    57'
+  notes: 'Title: SW Architect; Last activity: 2026-07-16 05:00; Sales activities:'
 - name: Jesse Salo
   role: Senior Software Developer
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: Senior Software Developer; Last activity: 2026-07-16 05:00; Sales
-    activities: 34'
+  notes: 'Title: Senior Software Developer; Last activity: 2026-07-16 05:00; Sales'
 - name: Juhani Pieskä
   role: Developer
   influence: low
@@ -31,14 +40,12 @@
   role: Lead Architect, R&D
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: Lead Architect, R&D; Last activity: 2026-04-23 05:00; Sales activities:
-    200'
+  notes: 'Title: Lead Architect, R&D; Last activity: 2026-04-23 05:00; Sales activities:'
 - name: Matti Heikkinen
   role: Technical Product Manager in embedded SW firmware development
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: Technical Product Manager in embedded SW firmware development; Last
-    activity: 2026-07-16 05:00; Sales activities: 330'
+  notes: 'Title: Technical Product Manager in embedded SW firmware development; Last'
 - name: Samuli Heinonen
   role: Senior Specialist
   influence: medium
@@ -48,8 +55,7 @@
   role: Senior Specialist
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: Senior Specialist; Last activity: 2026-04-23 05:00; Sales activities:
-    13'
+  notes: 'Title: Senior Specialist; Last activity: 2026-04-23 05:00; Sales activities:'
 - name: Mika Niemimaki
   role: Senior Researcher
   influence: medium
@@ -69,32 +75,27 @@
   role: Product Owner
   influence: low
   relationship_to_us: ally
-  notes: 'Title: Product Owner; Last activity: 2024-01-30 06:50; Sales activities:
-    25'
+  notes: 'Title: Product Owner; Last activity: 2024-01-30 06:50; Sales activities:'
 - name: Matti Sipola
   role: Architect, Connectivity, R&D
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: Architect, Connectivity, R&D; Last activity: 2024-10-18 14:54; Sales
-    activities: 1'
+  notes: 'Title: Architect, Connectivity, R&D; Last activity: 2024-10-18 14:54; Sales'
 - name: Antti Kylmänen
   role: Design Engineer
   influence: low
   relationship_to_us: ally
-  notes: 'Title: Design Engineer; Last activity: 2024-01-30 06:50; Sales activities:
-    25'
+  notes: 'Title: Design Engineer; Last activity: 2024-01-30 06:50; Sales activities:'
 - name: Nuutti Santaniemi
   role: Senior Researcher
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: Senior Researcher; Last activity: 2023-08-01 17:00; Sales activities:
-    4'
+  notes: 'Title: Senior Researcher; Last activity: 2023-08-01 17:00; Sales activities:'
 - name: Ossi Rytkönen
   role: Senior DevOps Software Engineer
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: Senior DevOps Software Engineer; Last activity: ; Sales activities:
-    0'
+  notes: 'Title: Senior DevOps Software Engineer; Last activity: ; Sales activities:'
 - name: Jussi Peltonen
   role: Business Manager
   influence: medium
@@ -119,50 +120,42 @@
   role: Director of Polar Electro Research Center
   influence: high
   relationship_to_us: ally
-  notes: 'Title: Director of Polar Electro Research Center; Last activity: 2026-04-30
-    17:09; Sales activities: 28'
+  notes: 'Title: Director of Polar Electro Research Center; Last activity: 2026-04-30'
 - name: Michael Valentino
   role: Senior Director Of B2B Sales
   influence: high
   relationship_to_us: ally
-  notes: 'Title: Senior Director Of B2B Sales; Last activity: 2024-12-12 07:14; Sales
-    activities: 4'
+  notes: 'Title: Senior Director Of B2B Sales; Last activity: 2024-12-12 07:14; Sales'
 - name: Tuomas Ylä-Kauttu
   role: Business Development Manager
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: Business Development Manager; Last activity: 2026-01-06 23:52; Sales
-    activities: 10'
+  notes: 'Title: Business Development Manager; Last activity: 2026-01-06 23:52; Sales'
 - name: Spiros Andreou
   role: Business Product Manager, Partnerships
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: Business Product Manager, Partnerships; Last activity: 2026-01-05
-    17:31; Sales activities: 10'
+  notes: 'Title: Business Product Manager, Partnerships; Last activity: 2026-01-05'
 - name: Andre Bandeira
   role: Managing Director / General Manager
   influence: high
   relationship_to_us: ally
-  notes: 'Title: Managing Director / General Manager; Last activity: 2024-09-05 10:36;
-    Sales activities: 1'
+  notes: 'Title: Managing Director / General Manager; Last activity: 2024-09-05 10:36;'
 - name: David Wiley
   role: Managing Director
   influence: high
   relationship_to_us: ally
-  notes: 'Title: Managing Director; Last activity: 2024-09-05 10:36; Sales activities:
-    1'
+  notes: 'Title: Managing Director; Last activity: 2024-09-05 10:36; Sales activities:'
 - name: Eeva Starck
   role: PO/Scrum Master at Device UX team
   influence: low
   relationship_to_us: ally
-  notes: 'Title: PO/Scrum Master at Device UX team; Last activity: ; Sales activities:
-    0'
+  notes: 'Title: PO/Scrum Master at Device UX team; Last activity: ; Sales activities:'
 - name: Tarja Määttä
   role: Business Director, Polar Devices
   influence: high
   relationship_to_us: ally
-  notes: 'Title: Business Director, Polar Devices; Last activity: 2025-03-10 07:31;
-    Sales activities: 12'
+  notes: 'Title: Business Director, Polar Devices; Last activity: 2025-03-10 07:31;'
 - name: Paavo Alavesa
   role: UX Designer
   influence: low
@@ -187,8 +180,7 @@
   role: Product Owner
   influence: low
   relationship_to_us: ally
-  notes: 'Title: Product Owner; Last activity: 2024-08-30 03:49; Sales activities:
-    4'
+  notes: 'Title: Product Owner; Last activity: 2024-08-30 03:49; Sales activities:'
 - name: Joona Päivärinta
   role: SW developer
   influence: low
@@ -218,14 +210,12 @@
   role: Director, PR
   influence: high
   relationship_to_us: ally
-  notes: 'Title: Director, PR; Last activity: 2025-03-10 07:31; Sales activities:
-    25'
+  notes: 'Title: Director, PR; Last activity: 2025-03-10 07:31; Sales activities:'
 - name: Anssi Mäkelä
   role: Chief Marketing Officer
   influence: low
   relationship_to_us: ally
-  notes: 'Title: Chief Marketing Officer; Last activity: 2025-03-10 07:31; Sales activities:
-    28'
+  notes: 'Title: Chief Marketing Officer; Last activity: 2025-03-10 07:31; Sales activities:'
 - name: Pekka Hyvönen
   role: Architect, Device SW
   influence: medium
@@ -260,14 +250,12 @@
   role: Project Manager, At Polar Electro Oy Care Communication
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: Project Manager, At Polar Electro Oy Care Communication; Last activity:
-    ; Sales activities: 0'
+  notes: 'Title: Project Manager, At Polar Electro Oy Care Communication; Last activity:'
 - name: Maarit Makinen
   role: Data Protection Officer
   influence: low
   relationship_to_us: ally
-  notes: 'Title: Data Protection Officer; Last activity: 2024-07-29 12:28; Sales activities:
-    28'
+  notes: 'Title: Data Protection Officer; Last activity: 2024-07-29 12:28; Sales activities:'
 - name: Ismo Savikoski
   role: VP of R&D
   influence: high
@@ -277,38 +265,36 @@
   role: Line Manager & IPR, Device SW
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: Line Manager & IPR, Device SW; Last activity: 2023-09-11 00:54; Sales
-    activities: 17'
+  notes: 'Title: Line Manager & IPR, Device SW; Last activity: 2023-09-11 00:54; Sales'
 - name: Kai Pietilä
   role: Hardware Manager
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: Hardware Manager; Last activity: 2023-09-11 00:54; Sales activities:
-    17'
+  notes: 'Title: Hardware Manager; Last activity: 2023-09-11 00:54; Sales activities:'
 - name: Sami Karvonen
   role: Director, Research & Development (Switzerland) & Global Director, Commercial,
-    OEM
   influence: high
   relationship_to_us: ally
-  notes: 'Title: Director, Research & Development (Switzerland) & Global Director,
-    Commercial, OEM; Last activity: 2023-08-08 17:00; Sales activities: 3'
+  notes: 'Title: Director, Research & Development (Switzerland) & Global Director,'
 - name: Mika Rahja
   role: Release Train Engineer, Research
   influence: low
   relationship_to_us: ally
-  notes: 'Title: Release Train Engineer, Research; Last activity: 2023-08-01 17:00;
-    Sales activities: 4'
+  notes: 'Title: Release Train Engineer, Research; Last activity: 2023-08-01 17:00;'
 - name: Lauri Lehtiniemi
   role: Senior Designer, HW project leader
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: Senior Designer, HW project leader; Last activity: 2024-11-04 08:00;
-    Sales activities: 23'
+  notes: 'Title: Senior Designer, HW project leader; Last activity: 2024-11-04 08:00;'
 - name: Jukka-Pekka Pitkänen
   role: Senior Sourcing Manager
   influence: medium
   relationship_to_us: ally
-  notes: 'Title: Senior Sourcing Manager; Last activity: 2023-07-12 03:47; Sales activities:
-    1'
+  notes: 'Title: Senior Sourcing Manager; Last activity: 2023-07-12 03:47; Sales activities:'
+notes_links: []
 ---
+
 ## Notes
+
+<!-- Add meeting notes, QBR prep, risk threads, executive sponsor mapping -->
+<!-- Link related notes with wikilinks: [[YYYY-MM-DD QBR prep]] -->

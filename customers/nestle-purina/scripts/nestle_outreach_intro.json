@@ -1,0 +1,30 @@
+{
+  "children": [
+    {
+      "object": "block",
+      "type": "heading_1",
+      "heading_1": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "📧 Target Division Outreach Email Templates"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "Below are personalized email templates for each target division at Nestlé Purina."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

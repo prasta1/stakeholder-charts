@@ -1,0 +1,134 @@
+{
+  "children": [
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "heading_2",
+      "heading_2": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "🏭 Manufacturing Division Outreach"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**To:** Plant Operations Director"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**Subject:** Reducing Production Defects with Edge AI - Pilot Opportunity"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "Hi [Name],\n\nI noticed Nestlé Purina's leadership in pet nutrition manufacturing. We've helped similar food processing companies reduce defects by 95% using edge AI vision systems that work offline.\n\nKey value for your plants:\n- Detect packaging defects, foreign objects in real-time\n- Predictive maintenance to prevent unplanned downtime\n- Works without constant internet connectivity\n- ROI: 6-month break-even, 35% efficiency improvement\n\nWould you have 15 minutes next week to explore if our solution could complement your current quality control workflow?\n\nBest regards,\n[Your Name]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "", "style": {"strikethrough": true}
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**To:** Quality Assurance Director",
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**Subject:** Edge AI Quality Control - FDA-Ready for Food Safety"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "Dear [Name],\n\nYour team's work on food safety quality standards is impressive. Our edge AI system helps QA teams:\n\n- Spot contamination or mis-packing before products reach consumers\n- Document all inspections automatically for compliance audits\n- Flag trends (e.g., specific line issues) before escalation\n- Works at production line speeds with zero latency\n\nWe can process in-house without sharing sensitive formulations.\n\nOpen to discussing a 30-day pilot at one of your facilities?\n\nRegards,\n[Your Name]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": ""
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

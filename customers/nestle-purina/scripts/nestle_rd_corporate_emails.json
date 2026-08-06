@@ -1,0 +1,134 @@
+{
+  "children": [
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "heading_2",
+      "heading_2": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "🔬 Research & R&D Outreach"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**To:** Applied Research Program Lead",
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**Subject:** Accelerating Nutrition Trials with Edge AI - Multi-Animal Monitoring"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "Hi [Name],\n\nYour animal science research is groundbreaking. We help research facilities:\n\n- Monitor 100+ subjects simultaneously for behavior trials\n- Track subtle appetite changes, activity patterns\n- Detect stress/cortisol via facial analysis\n- Automate data collection, reducing research time\n\nOur edge nodes work offline, protecting trial integrity.\n\nWould you discuss how this could accelerate your current nutrition testing programs?\n\nRegards,\n[Your Name]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "heading_2",
+      "heading_2": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "🤖 Corporate Functions Outreach"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**To:** Digital Transformation Director",
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**Subject:** Strategic Partnership - Edge AI Platform for Pet Care Innovation"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "Dear [Name],\n\nLooking at Nestlé Purina's digital initiatives, we believe we can support your digital transformation:\n\n- Edge-first pet device ecosystem for privacy compliance\n- Manufacturing efficiency through AI vision quality systems\n- Retail innovation with smart pet experiences\n- Ready-to-deploy models reducing 80% development time\n\nWe've helped similar companies scale connected pet tech to 1M+ devices.\n\nWould you be open to an introductory call to explore partnership?\n\nSincerely,\n[Your Name]"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+# macOS
+.DS_Store
+._*
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+.env
+venv/
+
+# Data (keep references, not raw files)
+*.h5
+*.tflite
+*.onnx
+*.pkl
+*.npy
+*.csv
+!data/README.md
+
+# OS
+Thumbs.db

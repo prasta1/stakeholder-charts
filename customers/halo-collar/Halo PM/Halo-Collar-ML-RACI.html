@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Halo Collar On-Device ML — RACI (Draft)</title>
+<style>
+  :root{
+    --bg:#faf9f5; --surface:#ffffff; --surface2:#f1efe8; --line:rgba(0,0,0,.12);
+    --text:#1f1e1c; --muted:#5f5e5a; --hint:#8a8980;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#1a1a18; --surface:#242422; --surface2:#2c2c2a; --line:rgba(255,255,255,.14);
+      --text:#f3f1ea; --muted:#b4b2a9; --hint:#888780; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    line-height:1.55; padding:32px 20px;}
+  .wrap{max-width:1040px; margin:0 auto;}
+  h1{font-size:22px; font-weight:600; margin:0 0 4px;}
+  .sub{font-size:14px; color:var(--muted); margin:0 0 24px;}
+  .cards{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:24px;}
+  .card{background:var(--surface2); border-radius:10px; padding:14px 16px;}
+  .card .lbl{font-size:13px; color:var(--muted); margin:0 0 8px;}
+  .card .big{font-size:24px; font-weight:600; margin:0;}
+  .card .big small{font-size:13px; font-weight:400; color:var(--muted);}
+  .card .sec{font-size:13px; color:var(--muted); margin:3px 0 0;}
+  .bar{display:flex; flex-wrap:wrap; gap:16px; align-items:center; margin-bottom:18px;}
+  .legend{display:flex; flex-wrap:wrap; gap:16px; font-size:13px; color:var(--muted);}
+  .legend span{display:flex; align-items:center; gap:7px;}
+  .prog{margin-left:auto; font-size:13px; color:var(--muted);}
+  .prog b{color:var(--text); font-weight:600;}
+  .badge{display:inline-flex; align-items:center; justify-content:center; min-width:24px; height:20px;
+    padding:0 6px; border-radius:4px; font-size:12px; font-weight:600;}
+  .b-A{background:#AFA9EC; color:#26215C;}
+  .b-R{background:#9FE1CB; color:#04342C;}
+  .b-C{background:#FAEEDA; color:#633806;}
+  .b-I{background:#F1EFE8; color:#5F5E5A;}
+  table{width:100%; border-collapse:collapse; table-layout:fixed; font-size:13.5px;}
+  col.activity{width:26%} col.party{width:8%} col.notes{width:30%} col.done{width:9%}
+  th{text-align:center; padding:8px 6px; color:var(--muted); font-weight:600; font-size:13px;
+    border-bottom:1px solid var(--line);}
+  th.activity,th.notes{text-align:left;}
+  td{padding:8px 6px; border-bottom:1px solid var(--line); vertical-align:top;}
+  td.activity{color:var(--text);}
+  td.notes{color:var(--muted); font-size:12.5px; line-height:1.45;}
+  td.cell{text-align:center;}
+  td.cell .grp{display:inline-flex; gap:4px; justify-content:center;}
+  td.done{text-align:center;}
+  td.done input{width:17px; height:17px; cursor:pointer; accent-color:#1D9E75;}
+  tr.phase td{background:var(--surface2); font-size:13px; font-weight:600; color:var(--muted);
+    padding:11px 8px 6px; border-bottom:none; border-radius:4px;}
+  tr.is-done td.activity, tr.is-done td.notes{text-decoration:line-through; opacity:.55;}
+  .foot{font-size:12px; color:var(--hint); margin-top:18px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Halo collar on-device ML — who owns what</h1>
+  <p class="sub">First-pass RACI draft &middot; GPS tracking + activity-detection models &middot; Halo, Edge Impulse, Softeq &middot; for team review</p>
+
+  <div class="cards">
+    <div class="card"><p class="lbl">Halo &middot; product owner</p><p class="big">13 <small>accountable</small></p><p class="sec">3 responsible</p></div>
+    <div class="card"><p class="lbl">Edge Impulse &middot; ML</p><p class="big">9 <small>responsible</small></p><p class="sec">5 accountable</p></div>
+    <div class="card"><p class="lbl">Softeq &middot; firmware</p><p class="big">8 <small>responsible</small></p><p class="sec">1 accountable</p></div>
+  </div>
+
+  <div class="bar">
+    <div class="legend">
+      <span><span class="badge b-A">A</span>Accountable</span>
+      <span><span class="badge b-R">R</span>Responsible</span>
+      <span><span class="badge b-C">C</span>Consulted</span>
+      <span><span class="badge b-I">I</span>Informed</span>
+    </div>
+    <div class="prog">Completed: <b id="done-count">0</b> / 19</div>
+  </div>
+
+  <table>
+    <colgroup><col class="activity"><col class="party"><col class="party"><col class="party"><col class="notes"><col class="done"></colgroup>
+    <thead><tr>
+      <th class="activity">Activity</th><th>Halo</th><th>Edge&nbsp;Impulse</th><th>Softeq</th>
+      <th class="notes">Notes</th><th>Done</th>
+    </tr></thead>
+    <tbody id="body"></tbody>
+  </table>
+
+  <p class="foot">Checkboxes track progress in this browser view only — the Google Sheet is the shared master for sign-off. Counts treat a combined A&middot;R as both. Every assignment is a starting point to challenge.</p>
+</div>
+
+<script>
+var phases=[
+  {name:"1 · Requirements & planning",rows:[
+    ["Product requirements & success criteria","A·R","C","C","Halo owns the product vision and what “good” looks like for users"],
+    ["ML model targets (GPS accuracy, activity F1)","A","R","C","Edge Impulse defines achievable targets; Softeq confirms feasibility on device"],
+    ["Hardware / firmware resource budget","A","C","R","Softeq owns the on-device budget; Edge Impulse advises on model footprint"],
+    ["Project plan, milestones & this RACI","A·R","C","C","Halo PM drives; all three confirm assignments"]]},
+  {name:"2 · Data",rows:[
+    ["Data collection & on-device logging","A","C","R","Halo provides collar/dog access; Softeq builds the logging firmware"],
+    ["Dataset labeling & curation","C","A·R","I","Edge Impulse owns labeling pipeline; Halo provides domain/vet input"],
+    ["Data pipeline & dataset management","I","A·R","C","Hosted in Edge Impulse; Softeq aligns on device data format"]]},
+  {name:"3 · Model development",rows:[
+    ["GPS tracking model — train & tune","C","A·R","I","Edge Impulse owns; Halo consulted on accuracy expectations"],
+    ["Activity-detection model — train & tune","C","A·R","I","Edge Impulse owns; Halo consulted on health-relevant activity classes"],
+    ["Optimization & quantization for device","I","A·R","C","Edge Impulse owns size/power optimization; Softeq confirms fit"]]},
+  {name:"4 · Integration",rows:[
+    ["Embed inference SDK in firmware","A","C","R","Softeq integrates into collar firmware; Edge Impulse supports SDK"],
+    ["On-device sensor / GPS data pipeline","I","C","A·R","Softeq owns drivers / real-time data feed to the model"],
+    ["On-device power & performance tuning","A","C","R","Softeq tunes; Edge Impulse advises on model-side trade-offs"]]},
+  {name:"5 · Validation & testing",rows:[
+    ["On-device accuracy validation (field)","A","R","C","Edge Impulse leads measurement; Softeq supports instrumentation"],
+    ["System / integration testing & QA","A","C","R","Softeq runs system QA on the integrated build"],
+    ["Field trials with dogs","A·R","C","C","Halo owns access to dogs/users and trial design"]]},
+  {name:"6 · Deployment & maintenance",rows:[
+    ["OTA release / production deployment","A","C","R","Softeq executes release; Halo approves go/no-go"],
+    ["Monitoring, updates & retraining","A","R","C","Edge Impulse owns retraining cycle; Softeq deploys updates"],
+    ["Documentation & handoff","A","R","R","Each party documents its own scope; Halo owns the consolidated package"]]}
+];
+function cell(code){
+  var html='<td class="cell"><span class="grp">';
+  code.split("·").forEach(function(p){html+='<span class="badge b-'+p+'">'+p+'</span>';});
+  return html+'</span></td>';
+}
+var h="";
+phases.forEach(function(ph){
+  h+='<tr class="phase"><td colspan="6">'+ph.name+'</td></tr>';
+  ph.rows.forEach(function(r){
+    h+='<tr><td class="activity">'+r[0]+'</td>'+cell(r[1])+cell(r[2])+cell(r[3])+
+       '<td class="notes">'+r[4]+'</td>'+
+       '<td class="done"><input type="checkbox"></td></tr>';
+  });
+});
+document.getElementById("body").innerHTML=h;
+var boxes=document.querySelectorAll('#body input[type=checkbox]');
+var counter=document.getElementById('done-count');
+boxes.forEach(function(b){
+  b.addEventListener('change',function(){
+    b.closest('tr').classList.toggle('is-done',b.checked);
+    var n=0; boxes.forEach(function(x){if(x.checked)n++;});
+    counter.textContent=n;
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+{
+  "children": [
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "heading_2",
+      "heading_2": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "🩺 Veterinary Solutions Outreach"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**To:** Veterinary Science Director",
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**Subject:** Reducing Patient Triage Time with Edge AI - Pilot Program"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "Dear [Name],\n\nYour veterinary science contributions to pet health are vital to our field. We've developed edge AI tools for clinics that:\n\n- Analyze intake notes, symptoms for faster diagnosis\n- Document wounds, skin conditions via computer vision\n- Track medication adherence, activity restrictions\n- Enable remote patient monitoring between visits\n- Reduce routine wellness check visits by 50%\n\nWe can deploy at no cost for a 90-day pilot with partner clinics, then transition to subscription model.\n\nWould this align with your strategic priorities?\n\nSincerely,\n[Your Name]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**To:** Global Vet Relations Manager",
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "**Subject:** Supporting Vet Clinic Partners with AI Tools - No Patient Cost"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "text": {
+              "content": "Hi [Name],\n\nOur edge AI healthcare tools complement veterinary care:\n\n- Help vet clinic partners improve operational efficiency\n- Assist with post-surgery compliance monitoring\n- Provide patients (via collars/bowls) with ongoing care support\n- Generate revenue through subscription, not patient fees\n\nWe can customize for each region's regulatory environment.\n\nOpen to a brief call to discuss how we can support your vet network?\n\nBest,\n[Your Name]"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -2,19 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Nestlé Purina Stakeholder Map</title>
 <style>
   :root {
     --bg: #050b14;
     --card: rgba(15,23,42,0.6);
+    --card-border: #1f2937;
     --text: #e2e8f0;
     --muted: #94a3b8;
-    --border: #1f2937;
+    --heading: #f8fafc;
     --high: #f59e0b;
     --medium: #34d399;
     --low: #60a5fa;
-    --group-fill: rgba(30,41,59,0.5);
+    --rel-ally: #22c55e;
+    --rel-warm: #f59e0b;
+    --rel-neutral: #64748b;
+    --rel-blocker: #ef4444;
+    --rel-marketing: #a855f7;
+    --group-bg: rgba(30,41,59,0.3);
   }
   * { box-sizing: border-box; }
   html,body {
@@ -27,7 +33,7 @@
     min-height: 100vh;
   }
   .wrap {
-    max-width: 1200px;
+    max-width: 1280px;
     margin: 0 auto;
     padding: 28px 24px 40px;
   }
@@ -59,8 +65,37 @@
     color: var(--muted);
     font-size: 13px;
   }
+  .controls {
+    display: flex;
+    gap: 12px;
+    margin: 14px 0 18px;
+  }
+  .controls #search {
+    flex: 1;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+    background: rgba(15,23,42,0.4);
+    color: var(--text);
+    font-size: 13px;
+    outline: none;
+  }
+  .controls #search:focus {
+    border-color: #22d3ee;
+  }
+  .controls #filter-rel {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+    background: rgba(15,23,42,0.4);
+    color: var(--text);
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+  }
   .legend {
     display: flex;
+    flex-wrap: wrap;
     gap: 14px;
     margin: 10px 0 18px;
     font-size: 12px;
@@ -72,100 +107,150 @@
     padding: 6px 10px;
     border-radius: 999px;
     background: var(--card);
-    border: 1px solid var(--border);
+    border: 1px solid var(--card-border);
   }
   .legend .swatch {
     width: 10px; height: 10px;
     border-radius: 2px;
   }
+  .legend .swatch.rel {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
   .stage {
     background: linear-gradient(180deg, rgba(15,23,42,0.4) 0%, rgba(15,23,42,0.2) 100%);
-    border: 1px solid var(--border);
+    border: 1px solid var(--card-border);
     border-radius: 16px;
     padding: 18px;
     backdrop-filter: blur(4px);
   }
   .row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
+    margin-bottom: 18px;
   }
-  .row + .row {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px dashed var(--border);
+  .row:last-child {
+    margin-bottom: 0;
   }
   .row .label {
-    width: 100%;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 1.2px;
     color: var(--muted);
-    margin-bottom: 6px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .row .label::before {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--card-border);
+  }
+  .node-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
   }
   .node {
-    flex: 1 1 180px;
-    max-width: 260px;
     background: var(--card);
-    border: 1px solid var(--border);
+    border: 1px solid var(--card-border);
     border-radius: 12px;
     padding: 12px 14px;
-    position: relative;
-    overflow: hidden;
+    transition: all 0.2s ease;
+    cursor: default;
   }
-  .node::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
+  .node:hover {
+    border-color: #22d3ee;
+    box-shadow: 0 0 0 2px rgba(34,211,238,0.15);
+    transform: translateY(-2px);
   }
-  .node.high::before { background: var(--high); }
-  .node.medium::before { background: var(--medium); }
-  .node.low::before { background: var(--low); }
+  .node-inner {
+    display: flex;
+    flex-direction: column;
+  }
   .node .name {
     font-size: 14px;
     font-weight: 600;
-    color: #f8fafc;
+    color: var(--heading);
+    margin-bottom: 2px;
   }
   .node .role {
-    margin-top: 2px;
     font-size: 12px;
-    color: #cbd5e1;
+    color: var(--muted);
+    margin-bottom: 8px;
   }
   .node .meta {
-    margin-top: 8px;
     display: flex;
     gap: 8px;
-    font-size: 11px;
-    color: var(--muted);
+    flex-wrap: wrap;
   }
   .node .badge {
     padding: 3px 8px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid var(--border);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
   }
+  .node .badge-outline {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--card-border);
+    color: var(--muted);
+  }
+  .node .rel-ally { background: rgba(34,197,94,0.2); color: var(--rel-ally); }
+  .node .rel-warm { background: rgba(245,158,1,0.2); color: var(--rel-warm); }
+  .node .rel-neutral { background: rgba(100,116,139,0.2); color: var(--rel-neutral); }
+  .node .rel-blocker { background: rgba(239,68,68,0.2); color: var(--rel-blocker); }
+  .node .rel-marketing { background: rgba(168,85,247,0.2); color: var(--rel-marketing); }
   .group {
-    flex: 1 1 220px;
-    background: var(--group-fill);
-    border: 1px dashed var(--border);
+    background: var(--group-bg);
+    border: 1px dashed var(--card-border);
     border-radius: 14px;
-    padding: 12px;
+    padding: 14px;
+    margin-top: 10px;
   }
   .group h4 {
-    margin: 0 0 10px;
+    margin: 0 0 12px;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 1.1px;
-    color: #cbd5e1;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
-  .group .row { margin-top: 8px; }
+  .group h4::before {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--card-border);
+  }
   footer {
     margin-top: 18px;
     color: var(--muted);
     font-size: 12px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+  }
+  .tooltip {
+    position: fixed;
+    pointer-events: none;
+    background: rgba(15,23,42,0.95);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 11px;
+    color: var(--text);
+    max-width: 240px;
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  }
+  .tooltip.show {
+    opacity: 1;
   }
 </style>
 </head>
@@ -175,345 +260,143 @@
       <div class="dot" aria-hidden="true"></div>
       <div>
         <h1>Nestlé Purina Stakeholder Map</h1>
-        <p>Customer contacts edited over time. Add new contacts in the customer file.</p>
+        <p>Customer contacts — influence, relationship, and activity snapshots</p>
       </div>
     </header>
+
+    <div class="controls">
+      <input type="text" id="search" placeholder="Search contacts by name or role…" />
+      <select id="filter-rel">
+        <option value="all">All Relationships</option>
+        <option value="Ally">Allies</option>
+        <option value="Blocker">Blockers</option>
+        <option value="Warm">Warm</option>
+        <option value="Marketing">Marketing</option>
+        <option value="Neutral">Neutral</option>
+      </select>
+    </div>
 
     <div class="legend">
       <div class="pill"><span class="swatch" style="background:var(--high)"></span>High influence</div>
       <div class="pill"><span class="swatch" style="background:var(--medium)"></span>Medium influence</div>
       <div class="pill"><span class="swatch" style="background:var(--low)"></span>Low influence</div>
+      <div class="pill"><span class="swatch rel" style="background:var(--rel-ally)"></span>Ally</div>
+      <div class="pill"><span class="swatch rel" style="background:var(--rel-warm)"></span>Warm</div>
+      <div class="pill"><span class="swatch rel" style="background:var(--rel-neutral)"></span>Neutral</div>
+      <div class="pill"><span class="swatch rel" style="background:var(--rel-blocker)"></span>Blocker</div>
+      <div class="pill"><span class="swatch rel" style="background:var(--rel-marketing)"></span>Marketing</div>
     </div>
 
     <div class="stage">
-      <div class="row">
-        <div class="label">Leadership / High Influence</div>
-        <div class="node high">
-          <div class="name">Sabir Khan</div>
-          <div class="role">Capgemini Engineer (Contractor at Purina)</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node high">
-          <div class="name">Sean Boland</div>
-          <div class="role">Sr. Director of Marketing</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node high">
-          <div class="name">Sheri Smithey</div>
-          <div class="role">Senior Vice President</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node high">
-          <div class="name">Ann Scharenberg</div>
-          <div class="role">Director of Architecture & Services</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node high">
-          <div class="name">Daniel Cheng</div>
-          <div class="role">Director, Product Management, Petivity</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node high">
-          <div class="name">Ragen T.S. McGowan</div>
-          <div class="role">Director Global Digital & AI Product Development</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="label">Technical / Medium Influence</div>
-        <div class="node medium">
-          <div class="name">Siddharth Jain</div>
-          <div class="role">Senior Data Scientist  Tiger Analytics</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Natalie Langenfeld-McCoy</div>
-          <div class="role">Manager Data Scientist</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Michelle Phillips</div>
-          <div class="role">NesTMS LBA/Sr Specialist Info Systems/Computer Ops, PTC</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Craig Duffy</div>
-          <div class="role">Expert Automation Engineer</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Saad Siddiqi</div>
-          <div class="role">Senior Project Manager - System technology center</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Flavien Dubief</div>
-          <div class="role">Acceleration R&D Project Manager - System Technology Center - In Switzerland</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Jessica Gillam</div>
-          <div class="role">Lead Digital Marketing Analytics</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Jonathan Brown</div>
-          <div class="role">Senior Specialist - Business Automation</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Catherine Jacknewitz</div>
-          <div class="role">Associate Financial Control, PFME</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Sam Lazenby</div>
-          <div class="role">R&D Category Lead - Global Chocolate Innovation</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Jeff Nafziger</div>
-          <div class="role">Senior Program Manager - Petivity</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Antonio Belmontes</div>
-          <div class="role">Product Manager</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Amie Orlandi</div>
-          <div class="role">Sr. Manager Procurement Business Partner, Procurement</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Jack Arnold</div>
-          <div class="role">Associate Counsel</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Brian Lohman</div>
-          <div class="role">Associate Financial Control</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Terry O'Shea</div>
-          <div class="role">Consults for R&D Team - Physicist</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Helber Dussan</div>
-          <div class="role">Data Scientist - R&D Team</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Peter Farrand</div>
-          <div class="role">Senior Counsel</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Phillip Stoecker</div>
-          <div class="role">Petivity - Cloud Lead</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Bhanuprakash Bheemaneni</div>
-          <div class="role">Senior Professional - Capgemini Engineering</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Lei Liang</div>
-          <div class="role">Expert Digital Manufacturing</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Swapnil Bobate</div>
-          <div class="role">Senior Analytics Consultant - Tiger Analytics</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Dwarakanath Raghavendra Ravi</div>
-          <div class="role">Engagement Manager - Tiger Analytics</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Kristin Slater</div>
-          <div class="role">Senior Manager, IoT Products, Petivity</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Jonathan Lau</div>
-          <div class="role">Product Management Consultant</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Robert Stephenson</div>
-          <div class="role">Infrastructure Manager</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Noah Haukap</div>
-          <div class="role">Manager IT User Support, PTC</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Praveen Kumar Ganesh Kumar</div>
-          <div class="role">Assistant Sales Manager</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Paul Whitaker</div>
-          <div class="role">Associate Brand Manager - Perrier</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Denise Becker</div>
-          <div class="role">Senior Specialist Procurement</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Tina Marlow</div>
-          <div class="role">Senior Paralegal</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Srikanth Vemparala</div>
-          <div class="role">Expert Solutions Architect Lead</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-        <div class="node medium">
-          <div class="name">Robert Teckenbrock</div>
-          <div class="role">Senior data engineer</div>
-          <div class="meta"><span class="badge">Contact</span><span class="badge">Ally</span></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="label">Operational / Low Influence</div>
-        <div class="group">
-          <h4>Software / Firmware</h4>
-          <div class="row">
-        <div class="node low">
-          <div class="name">Juhi Negi</div>
-          <div class="role">Engineer of some sort?</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">8 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Padma Sripada</div>
-          <div class="role">Operations and Program Management at Culvert Engineering Solutions, LLC</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">4 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Jack Tanny</div>
-          <div class="role">Data & AI Engineer II Consultant</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">10 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Martyn Hilbers</div>
-          <div class="role">Control Sytem Engineer / Course Trainer</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">6 activities</span></div>
-        </div>
-          </div>
-        </div>        <div class="group">
-          <h4>Engineering / QA</h4>
-          <div class="row">
-        <div class="node low">
-          <div class="name">Narendra Kumar</div>
-          <div class="role">Quality Control Microbiologist</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">4 activities</span></div>
-        </div>
-          </div>
-        </div>        <div class="group">
-          <h4>Business / Admin</h4>
-          <div class="row">
-        <div class="node low">
-          <div class="name">Janaidahmed Ansari</div>
-          <div class="role">R&D - Constultant</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">22 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Jeremy Facquez</div>
-          <div class="role">Responsable secteur - France</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">0 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Laura Perbellini</div>
-          <div class="role">Unclear</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">1 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Laura Paez</div>
-          <div class="role">Associate R&D Specialist in Machine Development in Switzerland</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">7 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Ryan Brauer</div>
-          <div class="role">Citizen Development and Analytics Consultant</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">3 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Kevin Connelly</div>
-          <div class="role">Specialist Business Optimization</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">1 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Todd Moss</div>
-          <div class="role">Consultant of Innovation Business Intelligence</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">3 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Danielle Edler</div>
-          <div class="role">Data and Analytics Consultant</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">3 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Jessica Mirowitz</div>
-          <div class="role">Marketing</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">4 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Dilyana Nikolova</div>
-          <div class="role">R&D Master Trainee (Nutrition Sciences Department)</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">0 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Kim Bill</div>
-          <div class="role">Head Purina Accelerator Lab</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">1 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">AP Scan</div>
-          <div class="role">AP Scan</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">8 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Debashish Sahoo</div>
-          <div class="role">Analytics Consultant - Tiger Analytics</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">20 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Abhisheksai Nasanuru</div>
-          <div class="role">Unclear</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">2 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Uday Bijjala</div>
-          <div class="role">Tiger Team Analytics</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">2 activities</span></div>
-        </div>
-        <div class="node low">
-          <div class="name">Anandu Nandakumar</div>
-          <div class="role">Tiger Team Analytics</div>
-          <div class="meta"><span class="badge">Active</span><span class="badge">2 activities</span></div>
-        </div>
-          </div>
-        </div>
-      </div>
+<div class="row"><div class="label">Leadership / High Influence</div><div class="node-grid"><div class="node" data-name="Sabir Khan" data-role="Capgemini Engineer (Contractor at Purina)" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Capgemini Engineer (Contractor at Purina); Last activity: 2026-06-11">Sabir Khan</div><div class="role">Capgemini Engineer (Contractor at Purina)</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Sean Boland" data-role="Sr. Director of Marketing" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Sr. Director of Marketing; Last activity: 2024-10-17 08:32; Sales">Sean Boland</div><div class="role">Sr. Director of Marketing</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Sheri Smithey" data-role="Senior Vice President" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Senior Vice President; Last activity: 2024-08-04 09:44; Sales activities:">Sheri Smithey</div><div class="role">Senior Vice President</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Ann Scharenberg" data-role="Director of Architecture & Services" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Director of Architecture & Services; Last activity: 2024-01-02 09:27;">Ann Scharenberg</div><div class="role">Director of Architecture & Services</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Daniel Cheng" data-role="Director, Product Management, Petivity" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Director, Product Management, Petivity; Last activity: 2026-07-16">Daniel Cheng</div><div class="role">Director, Product Management, Petivity</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Ragen T.S. McGowan" data-role="Director Global Digital & AI Product Development" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--high);"><div class="name" title="Title: Director Global Digital & AI Product Development; Last activity:">Ragen T.S. McGowan</div><div class="role">Director Global Digital & AI Product Development</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div></div></div>
+<div class="row"><div class="label">Technical / Medium Influence</div><div class="node-grid"><div class="node" data-name="Siddharth Jain" data-role="Senior Data Scientist  Tiger Analytics" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Senior Data Scientist  Tiger Analytics; Last activity: 2026-06-11">Siddharth Jain</div><div class="role">Senior Data Scientist  Tiger Analytics</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Natalie Langenfeld-McCoy" data-role="Manager Data Scientist" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Manager Data Scientist; Last activity: 2026-07-22 10:30; Sales activities:">Natalie Langenfeld-McCoy</div><div class="role">Manager Data Scientist</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Michelle Phillips" data-role="NesTMS LBA/Sr Specialist Info Systems/Computer Ops, PTC" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: NesTMS LBA/Sr Specialist Info Systems/Computer Ops, PTC; Last activity:">Michelle Phillips</div><div class="role">NesTMS LBA/Sr Specialist Info Systems/Computer Ops, PTC</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Craig Duffy" data-role="Expert Automation Engineer" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Expert Automation Engineer; Last activity: 2025-07-08 10:48; Sales">Craig Duffy</div><div class="role">Expert Automation Engineer</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Saad Siddiqi" data-role="Senior Project Manager - System technology center" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Senior Project Manager - System technology center; Last activity:">Saad Siddiqi</div><div class="role">Senior Project Manager - System technology center</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Flavien Dubief" data-role="Acceleration R&D Project Manager - System Technology Center - In Switzerland" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Acceleration R&D Project Manager - System Technology Center - In">Flavien Dubief</div><div class="role">Acceleration R&D Project Manager - System Technology Center - In Switzerland</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Jessica Gillam" data-role="Lead Digital Marketing Analytics" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Lead Digital Marketing Analytics; Last activity: 2026-04-13 17:00;">Jessica Gillam</div><div class="role">Lead Digital Marketing Analytics</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Jonathan Brown" data-role="Senior Specialist - Business Automation" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Senior Specialist - Business Automation; Last activity: 2026-04-13">Jonathan Brown</div><div class="role">Senior Specialist - Business Automation</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Catherine Jacknewitz" data-role="Associate Financial Control, PFME" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Associate Financial Control, PFME; Last activity: 2025-10-28 15:26;">Catherine Jacknewitz</div><div class="role">Associate Financial Control, PFME</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Sam Lazenby" data-role="R&D Category Lead - Global Chocolate Innovation" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: R&D Category Lead - Global Chocolate Innovation; Last activity: ;">Sam Lazenby</div><div class="role">R&D Category Lead - Global Chocolate Innovation</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Jeff Nafziger" data-role="Senior Program Manager - Petivity" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Senior Program Manager - Petivity; Last activity: 2024-08-01 06:23;">Jeff Nafziger</div><div class="role">Senior Program Manager - Petivity</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Antonio Belmontes" data-role="Product Manager" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Product Manager; Last activity: 2026-06-11 07:30; Sales activities:">Antonio Belmontes</div><div class="role">Product Manager</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Amie Orlandi" data-role="Sr. Manager Procurement Business Partner, Procurement" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Sr. Manager Procurement Business Partner, Procurement; Last activity:">Amie Orlandi</div><div class="role">Sr. Manager Procurement Business Partner, Procurement</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Jack Arnold" data-role="Associate Counsel" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Associate Counsel; Last activity: 2024-02-29 07:38; Sales activities:">Jack Arnold</div><div class="role">Associate Counsel</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Brian Lohman" data-role="Associate Financial Control" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Associate Financial Control; Last activity: 2024-07-24 13:14; Sales">Brian Lohman</div><div class="role">Associate Financial Control</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Terry O'Shea" data-role="Consults for R&D Team - Physicist" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Consults for R&D Team - Physicist; Last activity: 2026-06-11 07:30;">Terry O'Shea</div><div class="role">Consults for R&D Team - Physicist</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Helber Dussan" data-role="Data Scientist - R&D Team" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Data Scientist - R&D Team; Last activity: 2026-07-16 19:21; Sales">Helber Dussan</div><div class="role">Data Scientist - R&D Team</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Peter Farrand" data-role="Senior Counsel" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Senior Counsel; Last activity: 2024-01-17 12:53; Sales activities:">Peter Farrand</div><div class="role">Senior Counsel</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Phillip Stoecker" data-role="Petivity - Cloud Lead" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Petivity - Cloud Lead; Last activity: 2025-10-22 07:03; Sales activities:">Phillip Stoecker</div><div class="role">Petivity - Cloud Lead</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Bhanuprakash Bheemaneni" data-role="Senior Professional - Capgemini Engineering" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Senior Professional - Capgemini Engineering; Last activity: 2026-06-11">Bhanuprakash Bheemaneni</div><div class="role">Senior Professional - Capgemini Engineering</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Lei Liang" data-role="Expert Digital Manufacturing" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Expert Digital Manufacturing; Last activity: 2023-11-27 11:48; Sales">Lei Liang</div><div class="role">Expert Digital Manufacturing</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Swapnil Bobate" data-role="Senior Analytics Consultant - Tiger Analytics" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Senior Analytics Consultant - Tiger Analytics; Last activity: 2024-10-15">Swapnil Bobate</div><div class="role">Senior Analytics Consultant - Tiger Analytics</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Dwarakanath Raghavendra Ravi" data-role="Engagement Manager - Tiger Analytics" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Engagement Manager - Tiger Analytics; Last activity: 2026-07-16 19:21;">Dwarakanath Raghavendra Ravi</div><div class="role">Engagement Manager - Tiger Analytics</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Kristin Slater" data-role="Senior Manager, IoT Products, Petivity" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Senior Manager, IoT Products, Petivity; Last activity: 2025-11-13">Kristin Slater</div><div class="role">Senior Manager, IoT Products, Petivity</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Jonathan Lau" data-role="Product Management Consultant" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Product Management Consultant; Last activity: 2024-01-11 08:13; Sales">Jonathan Lau</div><div class="role">Product Management Consultant</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Robert Stephenson" data-role="Infrastructure Manager" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Infrastructure Manager; Last activity: 2025-05-12 09:29; Sales activities:">Robert Stephenson</div><div class="role">Infrastructure Manager</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Noah Haukap" data-role="Manager IT User Support, PTC" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Manager IT User Support, PTC; Last activity: 2026-07-22 10:30; Sales">Noah Haukap</div><div class="role">Manager IT User Support, PTC</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Praveen Kumar Ganesh Kumar" data-role="Assistant Sales Manager" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Assistant Sales Manager; Last activity: 2026-05-28 07:30; Sales activities:">Praveen Kumar Ganesh Kumar</div><div class="role">Assistant Sales Manager</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Paul Whitaker" data-role="Associate Brand Manager - Perrier" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Associate Brand Manager - Perrier; Last activity: 2023-05-11 06:50;">Paul Whitaker</div><div class="role">Associate Brand Manager - Perrier</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Denise Becker" data-role="Senior Specialist Procurement" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Senior Specialist Procurement; Last activity: 2025-10-28 15:26; Sales">Denise Becker</div><div class="role">Senior Specialist Procurement</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Tina Marlow" data-role="Senior Paralegal" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Senior Paralegal; Last activity: 2023-03-07 08:11; Sales activities:">Tina Marlow</div><div class="role">Senior Paralegal</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Srikanth Vemparala" data-role="Expert Solutions Architect Lead" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Expert Solutions Architect Lead; Last activity: 2026-07-16 19:21;">Srikanth Vemparala</div><div class="role">Expert Solutions Architect Lead</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Robert Teckenbrock" data-role="Senior data engineer" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--medium);"><div class="name" title="Title: Senior data engineer; Last activity: 2021-06-16 11:43; Sales activities:">Robert Teckenbrock</div><div class="role">Senior data engineer</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div></div></div>
+<div class="row"><div class="label">Operational / Low Influence</div><div class="group"><h4>Software / Firmware</h4><div class="node-grid"><div class="node" data-name="Juhi Negi" data-role="Engineer of some sort?" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Engineer of some sort?; Last activity: 2026-03-12 06:00; Sales activities:">Juhi Negi</div><div class="role">Engineer of some sort?</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Padma Sripada" data-role="Operations and Program Management at Culvert Engineering Solutions, LLC" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Operations and Program Management at Culvert Engineering Solutions,">Padma Sripada</div><div class="role">Operations and Program Management at Culvert Engineering Solutions, LLC</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Jack Tanny" data-role="Data & AI Engineer II Consultant" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Data & AI Engineer II Consultant; Last activity: 2024-08-26 09:00;">Jack Tanny</div><div class="role">Data & AI Engineer II Consultant</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Martyn Hilbers" data-role="Control Sytem Engineer / Course Trainer" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Control Sytem Engineer / Course Trainer; Last activity: 2023-11-27">Martyn Hilbers</div><div class="role">Control Sytem Engineer / Course Trainer</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div></div></div><div class="group"><h4>Engineering / QA</h4><div class="node-grid"><div class="node" data-name="Narendra Kumar" data-role="Quality Control Microbiologist" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Quality Control Microbiologist; Last activity: 2023-09-26 09:03;">Narendra Kumar</div><div class="role">Quality Control Microbiologist</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div></div></div><div class="group"><h4>Business / Admin</h4><div class="node-grid"><div class="node" data-name="Janaidahmed Ansari" data-role="R&D - Constultant" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: R&D - Constultant; Last activity: 2026-06-11 07:30; Sales activities:">Janaidahmed Ansari</div><div class="role">R&D - Constultant</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Jeremy Facquez" data-role="Responsable secteur - France" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Responsable secteur - France; Last activity: 2024-10-23; Sales activities:">Jeremy Facquez</div><div class="role">Responsable secteur - France</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Laura Perbellini" data-role="Unclear" data-rel="Ally" data-activities="1"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Unclear; Last activity: 2024-10-15 16:33; Sales activities: 1">Laura Perbellini</div><div class="role">Unclear</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">1 activities</span></div></div></div>
+<div class="node" data-name="Laura Paez" data-role="Associate R&D Specialist in Machine Development in Switzerland" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Associate R&D Specialist in Machine Development in Switzerland; Last">Laura Paez</div><div class="role">Associate R&D Specialist in Machine Development in Switzerland</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Ryan Brauer" data-role="Citizen Development and Analytics Consultant" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Citizen Development and Analytics Consultant; Last activity: 2026-04-13">Ryan Brauer</div><div class="role">Citizen Development and Analytics Consultant</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Kevin Connelly" data-role="Specialist Business Optimization" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Specialist Business Optimization; Last activity: 2025-06-10 14:20;">Kevin Connelly</div><div class="role">Specialist Business Optimization</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Todd Moss" data-role="Consultant of Innovation Business Intelligence" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Consultant of Innovation Business Intelligence; Last activity: 2026-04-13">Todd Moss</div><div class="role">Consultant of Innovation Business Intelligence</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Danielle Edler" data-role="Data and Analytics Consultant" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Data and Analytics Consultant; Last activity: 2026-04-13 17:00; Sales">Danielle Edler</div><div class="role">Data and Analytics Consultant</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Jessica Mirowitz" data-role="Marketing" data-rel="Ally" data-activities="4"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Marketing; Last activity: 2024-10-17 08:32; Sales activities: 4">Jessica Mirowitz</div><div class="role">Marketing</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">4 activities</span></div></div></div>
+<div class="node" data-name="Dilyana Nikolova" data-role="R&D Master Trainee (Nutrition Sciences Department)" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: R&D Master Trainee (Nutrition Sciences Department); Last activity:">Dilyana Nikolova</div><div class="role">R&D Master Trainee (Nutrition Sciences Department)</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Kim Bill" data-role="Head Purina Accelerator Lab" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Head Purina Accelerator Lab; Last activity: 2024-07-30 10:29; Sales">Kim Bill</div><div class="role">Head Purina Accelerator Lab</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="AP Scan" data-role="AP Scan" data-rel="Ally" data-activities="8"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: AP Scan; Last activity: 2024-07-12 03:19; Sales activities: 8">AP Scan</div><div class="role">AP Scan</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">8 activities</span></div></div></div>
+<div class="node" data-name="Debashish Sahoo" data-role="Analytics Consultant - Tiger Analytics" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Analytics Consultant - Tiger Analytics; Last activity: 2026-06-11">Debashish Sahoo</div><div class="role">Analytics Consultant - Tiger Analytics</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Abhisheksai Nasanuru" data-role="Unclear" data-rel="Ally" data-activities="2"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Unclear; Last activity: 2023-09-26 09:03; Sales activities: 2">Abhisheksai Nasanuru</div><div class="role">Unclear</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">2 activities</span></div></div></div>
+<div class="node" data-name="Uday Bijjala" data-role="Tiger Team Analytics" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Tiger Team Analytics; Last activity: 2023-09-26 09:03; Sales activities:">Uday Bijjala</div><div class="role">Tiger Team Analytics</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div>
+<div class="node" data-name="Anandu Nandakumar" data-role="Tiger Team Analytics" data-rel="Ally" data-activities="0"><div class="node-inner" style="border-left:3px solid var(--low);"><div class="name" title="Title: Tiger Team Analytics; Last activity: 2023-09-26 09:03; Sales activities:">Anandu Nandakumar</div><div class="role">Tiger Team Analytics</div><div class="meta"><span class="badge rel-ally">Ally</span><span class="badge badge-outline">0 activities</span></div></div></div></div></div></div>
     </div>
+
+    <div class="tooltip" id="tooltip"></div>
 
     <footer>
       <span>Nestlé Purina Petcare Global Resources Inc</span>
       <span>60 active contacts</span>
     </footer>
   </div>
+
+  <script>
+    // Client-side search + filter
+    const searchInput = document.getElementById('search');
+    const filterSelect = document.getElementById('filter-rel');
+    const nodes = document.querySelectorAll('.node');
+    const tooltip = document.getElementById('tooltip');
+
+    function filterNodes() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const relFilter = filterSelect.value;
+
+      nodes.forEach(node => {
+        const name = node.dataset.name.toLowerCase();
+        const role = node.dataset.role.toLowerCase();
+        const rel = node.dataset.rel;
+        const matchesSearch = name.includes(searchTerm) || role.includes(searchTerm);
+        const matchesRel = relFilter === 'all' || rel === relFilter;
+        node.style.display = (matchesSearch && matchesRel) ? '' : 'none';
+      });
+    }
+
+    searchInput.addEventListener('input', filterNodes);
+    filterSelect.addEventListener('change', filterNodes);
+
+    // Tooltip on hover
+    document.addEventListener('mousemove', (e) => {
+      const node = e.target.closest('.node');
+      if (!node) { tooltip.classList.remove('show'); return; }
+      const notes = node.querySelector('.name').title;
+      if (!notes) { tooltip.classList.remove('show'); return; }
+      tooltip.textContent = notes;
+      tooltip.style.left = (e.clientX + 14) + 'px';
+      tooltip.style.top = (e.clientY + 14) + 'px';
+      tooltip.classList.add('show');
+    });
+
+    document.addEventListener('mouseleave', (e) => {
+      if (!e.relatedTarget || !e.relatedTarget.closest('.node')) {
+        tooltip.classList.remove('show');
+      }
+    });
+  </script>
 </body>
 </html>

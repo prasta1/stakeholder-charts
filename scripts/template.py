@@ -294,6 +294,19 @@ HTML_TEMPLATE = '''<!doctype html>
     border-left: 2px dashed var(--card-border);
     margin-top: 10px;
   }
+  /* Engagement indicator dots */
+  .eng-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .eng-warm { background: var(--high); }
+  .eng-neutral { background: #f59e0b; }
+  .eng-cold { background: var(--low); }
+  .eng-unknown { background: #6b7280; }
   .group h4 {
     margin: 0 0 12px;
     font-size: 12px;
@@ -359,8 +372,17 @@ HTML_TEMPLATE = '''<!doctype html>
         <option value="Marketing">Marketing</option>
         <option value="Neutral">Neutral</option>
       </select>
+
       <select id="filter-team">
         <option value="all">All Teams</option>
+      </select>
+
+      <select id="filter-eng">
+        <option value="all">All Engagement</option>
+        <option value="warm">Warm</option>
+        <option value="neutral">Neutral</option>
+        <option value="cold">Cold</option>
+        <option value="unknown">Unknown</option>
       </select>
     </div>
 
@@ -373,6 +395,13 @@ HTML_TEMPLATE = '''<!doctype html>
       <div class="pill"><span class="swatch rel" style="background:var(--rel-neutral)"></span>Neutral</div>
       <div class="pill"><span class="swatch rel" style="background:var(--rel-blocker)"></span>Blocker</div>
       <div class="pill"><span class="swatch rel" style="background:var(--rel-marketing)"></span>Marketing</div>
+    </div>
+
+    <div class="legend">
+      <div class="pill"><span class="eng-dot eng-warm" style="margin-left:0"></span>Engaged (last 90 days)</div>
+      <div class="pill"><span class="eng-dot eng-neutral" style="margin-left:0"></span>Touched (90-180 days)</div>
+      <div class="pill"><span class="eng-dot eng-cold" style="margin-left:0"></span> No recent activity</div>
+      <div class="pill"><span class="eng-dot eng-unknown" style="margin-left:0"></span>Status unknown</div>
     </div>
 
     <div class="stage">
@@ -392,6 +421,7 @@ HTML_TEMPLATE = '''<!doctype html>
     const searchInput = document.getElementById('search');
     const filterSelect = document.getElementById('filter-rel');
     const teamFilter = document.getElementById('filter-team');
+    const engFilter = document.getElementById('filter-eng');
     const nodes = document.querySelectorAll('.node');
     const tooltip = document.getElementById('tooltip');
 
@@ -406,25 +436,29 @@ HTML_TEMPLATE = '''<!doctype html>
     });
 
     function filterNodes() {
-      const searchTerm = searchInput.value.toLowerCase();
-      const relFilter = filterSelect.value;
-      const teamFilterVal = teamFilter.value;
+    const searchTerm = searchInput.value.toLowerCase();
+    const relFilter = filterSelect.value;
+    const teamFilterVal = teamFilter.value;
+    const engFilterVal = engFilter.value;
 
-      nodes.forEach(node => {
-        const name = node.dataset.name.toLowerCase();
-        const role = node.dataset.role.toLowerCase();
-        const rel = node.dataset.rel;
-        const team = node.dataset.team;
-        const matchesSearch = name.includes(searchTerm) || role.includes(searchTerm);
-        const matchesRel = relFilter === 'all' || rel === relFilter;
-        const matchesTeam = teamFilterVal === 'all' || team === teamFilterVal;
-        node.style.display = (matchesSearch && matchesRel && matchesTeam) ? '' : 'none';
-      });
+    nodes.forEach(node => {
+      const name = node.dataset.name.toLowerCase();
+      const role = node.dataset.role.toLowerCase();
+      const rel = node.dataset.rel;
+      const team = node.dataset.team;
+      const eng = node.dataset.eng || 'unknown';
+      const matchesSearch = name.includes(searchTerm) || role.includes(searchTerm);
+      const matchesRel = relFilter === 'all' || rel === relFilter;
+      const matchesTeam = teamFilterVal === 'all' || team === teamFilterVal;
+      const matchesEng = engFilterVal === 'all' || eng === engFilterVal;
+      node.style.display = (matchesSearch && matchesRel && matchesTeam && matchesEng) ? '' : 'none';
+    });
     }
 
     searchInput.addEventListener('input', filterNodes);
     filterSelect.addEventListener('change', filterNodes);
     teamFilter.addEventListener('change', filterNodes);
+    engFilter.addEventListener('change', filterNodes);
 
     // Tooltip on hover
     document.addEventListener('mousemove', (e) => {

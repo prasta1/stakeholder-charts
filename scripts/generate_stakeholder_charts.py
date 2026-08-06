@@ -76,6 +76,66 @@ RELATIONSHIP_CLASS = {
 INFLUENCE_COLOR = {"High": "var(--high)", "Medium": "var(--medium)", "Low": "var(--low)"}
 
 ACTIVITY_RE = re.compile(r"Sales activities:\s*(\d+)")
+LAST_ACTIVITY_RE = re.compile(r"Last activity:\s*([0-9]{4}-[0-9]{2}-[0-9]{2})")
+
+
+def compute_engagement(contact):
+    """Derive an engagement level from available signals.
+
+    Signals (checked in order of preference):
+      - Explicit ``engagement`` field on the contact YAML (warm / neutral / cold)
+      - Sales activities count from notes (>=3 → warm, >=1 → neutral, 0 → cold)
+      - Last activity date within last 90 days → warm, within 180 → neutral, else cold
+      - No signals at all → unknown
+    """
+    explicit = contact.get("engagement")
+    if explicit and explicit.lower() in ("warm", "neutral", "cold", "active", "inactive", "unknown"):
+        eng = explicit.lower()
+        # Normalize
+        if eng == "active":
+            eng = "warm"
+        elif eng == "inactive":
+            eng = "cold"
+        return eng
+
+    # Check sales activities
+    notes = contact.get("notes", "")
+    m = ACTIVITY_RE.search(notes)
+    if m:
+        count = int(m.group(1))
+        if count >= 3:
+            return "warm"
+        elif count >= 1:
+            return "neutral"
+        else:
+            return "cold"
+
+    # Check last activity date
+    m = LAST_ACTIVITY_RE.search(notes)
+    if m:
+        try:
+            from datetime import datetime
+            last = datetime.strptime(m.group(1), "%Y-%m-%d")
+            days = (datetime.now() - last).days
+            if days <= 90:
+                return "warm"
+            elif days <= 180:
+                return "neutral"
+            else:
+                return "cold"
+        except (ValueError, TypeError):
+            return "unknown"
+
+    return "unknown"
+
+
+# Engagement -> CSS class for dot indicator
+ENGAGEMENT_CLASS = {
+    "warm": "eng-warm",
+    "neutral": "eng-neutral",
+    "cold": "eng-cold",
+    "unknown": "eng-unknown",
+}
 
 
 def infer_team(role):
@@ -266,6 +326,7 @@ def build_node(contact):
     activities = extract_activities(notes)
     rel_class = RELATIONSHIP_CLASS.get(rel, "rel-neutral")
     team = infer_team(role)
+    eng = compute_engagement(contact)
     
     # Truncate long notes for tooltip, show full in title
     note_preview = notes[:120] + "..." if len(notes) > 120 else notes
@@ -273,9 +334,9 @@ def build_node(contact):
     
     html = (
         '<div class="node" data-name="{name}" data-role="{role}" '
-        'data-rel="{rel}" data-activities="{activities}" data-team="{team}">'
+        'data-rel="{rel}" data-activities="{activities}" data-team="{team}" data-eng="{eng}">'
         '<div class="node-inner" style="border-left:3px solid {infl_color};">'
-        '<div class="name" title="{safe_notes}">{name}</div>'
+        '<div class="name" title="{safe_notes}">{name} <span class="eng-dot {eng_class}" title="Engagement: {eng}"></span></div>'
         '<div class="role">{role}</div>'
         '<div class="meta">'
         '<span class="badge {rel_class}">{rel}</span>'
@@ -288,7 +349,7 @@ def build_node(contact):
         name=name, role=role, rel=rel, activities=activities,
         infl_color=INFLUENCE_COLOR.get(infl, "var(--low)"),
         rel_class=rel_class, safe_notes=safe_notes,
-        team=team,
+        team=team, eng=eng, eng_class=ENGAGEMENT_CLASS.get(eng, "eng-unknown"),
     )
     return html
 
@@ -317,6 +378,8 @@ def build_tree_section(mgr, level=0, is_last=True, prefix="", show_children=True
     role = mgr.get("role", "")
     notes = mgr.get("notes", "")
     activities = extract_activities(notes)
+    eng = compute_engagement(mgr)
+    eng_class = ENGAGEMENT_CLASS.get(eng, "eng-unknown")
     rel_class = RELATIONSHIP_CLASS.get(rel, "rel-neutral")
     safe_notes = (notes or "").replace('"', "&quot;")
     
@@ -334,9 +397,9 @@ def build_tree_section(mgr, level=0, is_last=True, prefix="", show_children=True
         '<div class="tree-node" style="margin-left:{indent}px;">'
         '{connector}'
         '<div class="node" data-name="{name}" data-role="{role}" '
-        'data-rel="{rel}" data-activities="{activities}" style="display:inline-block;margin:6px 0;">'
+        'data-rel="{rel}" data-activities="{activities}" data-eng="{eng}" style="display:inline-block;margin:6px 0;">'
         '<div class="node-inner" style="border-left:3px solid {infl_color};">'
-        '<div class="name" title="{safe_notes}">{name}</div>'
+        '<div class="name" title="{safe_notes}">{name} <span class="eng-dot {eng_class}" title="Engagement: {eng}"></span></div>'
         '<div class="role">{role}</div>'
         '<div class="meta">'
         '<span class="badge {rel_class}">{rel}</span>'
@@ -346,10 +409,10 @@ def build_tree_section(mgr, level=0, is_last=True, prefix="", show_children=True
         '</div>'
         '</div>'
     ).format(
-        name=name, role=role, rel=rel, activities=activities,
+        name=name, role=role, rel=rel, activities=activities, eng=eng,
         infl_color=INFLUENCE_COLOR.get(infl, "var(--low)"),
         rel_class=rel_class, safe_notes=safe_notes,
-        indent=indent, connector=connector,
+        indent=indent, connector=connector, eng_class=eng_class,
     )
     
     # Render children (reports)
